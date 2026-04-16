@@ -1,0 +1,169 @@
+@import '@/styles/variables';
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.3);
+  z-index: 2000;
+  display: flex;
+  align-items: flex-end;
+
+  @media (min-width: 768px) {
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+.sheet {
+  background: $color-surface;
+  border-radius: $radius-lg $radius-lg 0 0;
+  padding: 1.5rem;
+  width: 100%;
+  max-height: 85dvh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+
+  @media (min-width: 768px) {
+    border-radius: $radius-lg;
+    max-width: 480px;
+    max-height: 80dvh;
+  }
+}
+
+.handle {
+  width: 40px;
+  height: 4px;
+  background: $color-border;
+  border-radius: 99px;
+  margin: 0 auto 1.25rem;
+
+  @media (min-width: 768px) {
+    display: none;
+  }
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: $color-text-muted;
+  }
+
+  input,
+  textarea {
+    border: 1.5px solid $color-border;
+    border-radius: $radius-sm;
+    padding: 0.75rem 1rem;
+    font-size: 1rem;
+
+    &:focus {
+      outline: none;
+      border-color: $color-primary;
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 80px;
+  }
+}
+
+.categories {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.catBtn {
+  padding: 0.5rem 0.875rem;
+  border-radius: 99px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border: 1.5px solid $color-border;
+  color: $color-text-muted;
+  transition: all 0.15s;
+
+  &.active {
+    background: $color-primary;
+    border-color: $color-primary;
+    color: white;
+  }
+}
+
+.photoLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border: 1.5px dashed $color-border;
+  border-radius: $radius-sm;
+  padding: 0.875rem 1rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: $color-text-muted;
+  transition: border-color 0.2s;
+  margin-bottom: 1rem;
+
+  &:hover {
+    border-color: $color-primary;
+  }
+
+  input {
+    display: none;
+  }
+}
+
+.photoPreview {
+  width: 100%;
+  max-height: 160px;
+  object-fit: cover;
+  border-radius: $radius-sm;
+  margin-bottom: 1rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  padding-top: 0.5rem;
+}
+
+.btnSubmit {
+  flex: 1;
+  background: $color-primary;
+  color: white;
+  border-radius: $radius-sm;
+  padding: 0.875rem;
+  font-size: 1rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+
+  &:disabled {
+    opacity: 0.6;
+  }
+}
+
+.btnCancel {
+  background: $color-bg;
+  color: $color-text-muted;
+  border: 1.5px solid $color-border;
+  border-radius: $radius-sm;
+  padding: 0.875rem 1.25rem;
+  font-size: 1rem;
+}
+
+.error {
+  color: $color-danger;
+  font-size: 0.875rem;
+  margin-bottom: 0.75rem;
+}
