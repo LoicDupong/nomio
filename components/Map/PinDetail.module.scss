@@ -1,0 +1,38 @@
+@import '@/styles/variables';
+
+.detail {
+  font-family: $font-base;
+  max-width: 260px;
+}
+
+.photo {
+  width: 100%;
+  border-radius: $radius-sm;
+  margin-bottom: 0.75rem;
+  object-fit: cover;
+  max-height: 160px;
+}
+
+.content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.title {
+  font-size: 1rem;
+  font-weight: 700;
+  color: $color-text;
+}
+
+.note {
+  font-size: 0.875rem;
+  color: $color-text-muted;
+  line-height: 1.5;
+}
+
+.author {
+  font-size: 0.75rem;
+  color: $color-text-muted;
+  margin-top: 0.25rem;
+}
