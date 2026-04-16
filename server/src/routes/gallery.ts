@@ -1,7 +1,6 @@
 import { Router, Response } from 'express';
 import { anyMember, MemberRequest } from '../middleware/anyMember';
 import { upload } from '../middleware/upload';
-import multer from 'multer';
 import { GalleryPhoto, TripMember, Pin } from '../models';
 
 const router = Router();

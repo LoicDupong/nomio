@@ -19,6 +19,11 @@ export function initSocket(server: http.Server) {
       token?: string;
       guest_token?: string;
     }) => {
+      if (!trip_id || typeof trip_id !== 'string') {
+        socket.emit('error', 'trip_id is required');
+        return;
+      }
+
       try {
         let member: TripMember | null = null;
 
@@ -27,10 +32,8 @@ export function initSocket(server: http.Server) {
             const payload = jwt.verify(token, process.env.JWT_SECRET!) as { id: string };
             member = await TripMember.findOne({ where: { trip_id, user_id: payload.id } });
           } catch (err) {
-            if (!(err instanceof JsonWebTokenError)) {
-              socket.emit('error', 'Server error');
-              return;
-            }
+            socket.emit('error', err instanceof JsonWebTokenError ? 'Invalid token' : 'Server error');
+            return;
           }
         }
 
@@ -45,6 +48,10 @@ export function initSocket(server: http.Server) {
               return;
             }
             member = await TripMember.findByPk(payload.member_id);
+            if (!member || member.trip_id !== trip_id) {
+              socket.emit('error', 'Not authorized for this trip');
+              return;
+            }
           } catch (err) {
             if (!(err instanceof JsonWebTokenError)) {
               socket.emit('error', 'Server error');
