@@ -30,6 +30,7 @@ export default function LandingPage() {
     } catch (err: unknown) {
       const e = err as { response?: { data?: { error?: string } } };
       setError(e.response?.data?.error || 'Failed to create trip');
+    } finally {
       setCreating(false);
     }
   }
@@ -71,11 +72,13 @@ export default function LandingPage() {
         ) : (
           <>
             <p className={styles.sectionTitle}>Create a trip</p>
-            <Link href="/auth/register">
-              <button className={styles.btnPrimary} type="button">
-                Register to create a trip
-              </button>
-            </Link>
+            <button
+              className={styles.btnPrimary}
+              type="button"
+              onClick={() => router.push('/auth/register')}
+            >
+              Register to create a trip
+            </button>
             <div className={styles.authLinks}>
               Already have an account? <Link href="/auth/login">Sign in</Link>
             </div>

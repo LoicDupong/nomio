@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import api from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
@@ -20,33 +20,31 @@ export default function JoinPage() {
     setHydrated(true);
   }, []);
 
-  // Auto-join if user already has a valid session (auth or guest)
-  useEffect(() => {
-    if (!hydrated) return;
-    if (token || guestToken) {
-      joinTrip();
-    }
-  }, [hydrated, token, guestToken]);
-
-  async function joinTrip(nameOverride?: string) {
+  const joinTrip = useCallback(async (nameOverride?: string) => {
     setLoading(true);
     setError('');
     try {
       const body = nameOverride ? { guest_name: nameOverride } : {};
       const res = await api.post(`/join/${code}`, body);
       const { trip_id, guest_token } = res.data;
-
       if (guest_token) {
         setGuest(guest_token, nameOverride || '');
       }
-
       router.push(`/trip/${trip_id}`);
     } catch (err: unknown) {
       const e = err as { response?: { data?: { error?: string } } };
       setError(e.response?.data?.error || 'Could not join trip');
       setLoading(false);
     }
-  }
+  }, [code, setGuest, router]);
+
+  // Auto-join if user already has a valid session (auth or guest)
+  useEffect(() => {
+    if (!hydrated) return;
+    if (token || guestToken) {
+      joinTrip();
+    }
+  }, [hydrated, token, guestToken, joinTrip]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
