@@ -4,6 +4,7 @@ import dotenv from 'dotenv';
 import http from 'http';
 import path from 'path';
 import { sequelize } from './models';
+import authRoutes from './routes/auth';
 
 dotenv.config();
 
@@ -13,6 +14,8 @@ const server = http.createServer(app);
 app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+
+app.use('/auth', authRoutes);
 
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 
