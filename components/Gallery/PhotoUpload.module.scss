@@ -1,0 +1,34 @@
+@import '@/styles/variables';
+
+.upload {
+  margin: 1rem;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 1.5px dashed $color-border;
+  border-radius: $radius-sm;
+  padding: 1rem;
+  cursor: pointer;
+  font-size: 0.875rem;
+  color: $color-text-muted;
+  transition: border-color 0.2s;
+
+  &:hover {
+    border-color: $color-primary;
+  }
+
+  input {
+    display: none;
+  }
+}
+
+.uploading {
+  text-align: center;
+  padding: 1rem;
+  font-size: 0.875rem;
+  color: $color-text-muted;
+}

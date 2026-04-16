@@ -1,0 +1,38 @@
+@import '@/styles/variables';
+
+.page {
+  min-height: 100dvh;
+  background: $color-bg;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem;
+  background: $color-surface;
+  border-bottom: 1px solid $color-border;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.back {
+  font-size: 1.25rem;
+  color: $color-text;
+  padding: 0.25rem;
+  line-height: 1;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 700;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50dvh;
+  color: $color-text-muted;
+}
