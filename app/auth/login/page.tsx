@@ -1,0 +1,75 @@
+'use client';
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import api from '@/lib/api';
+import { useAuthStore } from '@/store/authStore';
+import styles from './page.module.scss';
+
+export default function LoginPage() {
+  const router = useRouter();
+  const { setAuth, hydrate, token } = useAuthStore();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    hydrate();
+  }, []);
+
+  useEffect(() => {
+    if (token) router.replace('/');
+  }, [token, router]);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    try {
+      const res = await api.post('/auth/login', { email, password });
+      setAuth(res.data.token, res.data.user);
+      router.push('/');
+    } catch (err: unknown) {
+      const e = err as { response?: { data?: { error?: string } } };
+      setError(e.response?.data?.error || 'Login failed');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className={styles.page}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>Welcome back</h1>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.field}>
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.field}>
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          {error && <p className={styles.error}>{error}</p>}
+          <button className={styles.button} type="submit" disabled={loading}>
+            {loading ? 'Signing in...' : 'Sign in'}
+          </button>
+        </form>
+        <div className={styles.link}>
+          No account? <Link href="/auth/register">Register</Link>
+        </div>
+      </div>
+    </div>
+  );
+}

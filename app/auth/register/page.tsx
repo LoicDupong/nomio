@@ -1,0 +1,82 @@
+'use client';
+import { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
+import api from '@/lib/api';
+import { useAuthStore } from '@/store/authStore';
+import styles from './page.module.scss';
+
+export default function RegisterPage() {
+  const router = useRouter();
+  const { setAuth } = useAuthStore();
+  const [displayName, setDisplayName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    try {
+      const res = await api.post('/auth/register', {
+        email,
+        password,
+        display_name: displayName,
+      });
+      setAuth(res.data.token, res.data.user);
+      router.push('/');
+    } catch (err: unknown) {
+      const e = err as { response?: { data?: { error?: string } } };
+      setError(e.response?.data?.error || 'Registration failed');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className={styles.page}>
+      <div className={styles.card}>
+        <h1 className={styles.title}>Create account</h1>
+        <form onSubmit={handleSubmit}>
+          <div className={styles.field}>
+            <label>Name</label>
+            <input
+              type="text"
+              value={displayName}
+              onChange={(e) => setDisplayName(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.field}>
+            <label>Email</label>
+            <input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+          </div>
+          <div className={styles.field}>
+            <label>Password</label>
+            <input
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              minLength={6}
+            />
+          </div>
+          {error && <p className={styles.error}>{error}</p>}
+          <button className={styles.button} type="submit" disabled={loading}>
+            {loading ? 'Creating account...' : 'Create account'}
+          </button>
+        </form>
+        <div className={styles.link}>
+          Already have an account? <Link href="/auth/login">Sign in</Link>
+        </div>
+      </div>
+    </div>
+  );
+}
