@@ -34,19 +34,28 @@ export default function TripPage() {
       ]);
       setTrip(tripRes.data);
       setPins(pinsRes.data);
-
-      joinTripRoom(id);
-
-      const socket = getSocket();
-      socket.on('pin:added', (pin: Pin) => {
-        addPin(pin);
-      });
-
       setReady(true);
     } catch {
       router.replace('/');
     }
-  }, [id, setTrip, setPins, addPin, router]);
+  }, [id, setTrip, setPins, router]);
+
+  useEffect(() => {
+    if (!ready) return;
+
+    joinTripRoom(id);
+    const socket = getSocket();
+
+    function onPinAdded(pin: Pin) {
+      addPin(pin);
+    }
+
+    socket.on('pin:added', onPinAdded);
+
+    return () => {
+      socket.off('pin:added', onPinAdded);
+    };
+  }, [ready, id, addPin]);
 
   useEffect(() => {
     if (!hydrated) return;
