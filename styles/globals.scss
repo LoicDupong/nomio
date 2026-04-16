@@ -24,6 +24,7 @@ button {
   font-family: $font-base;
   border: none;
   background: none;
+  min-height: 44px;
 }
 
 input, textarea, select {
