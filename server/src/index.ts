@@ -1,6 +1,6 @@
+import 'dotenv/config'; // must be first — loads .env before any other module runs
 import express from 'express';
 import cors from 'cors';
-import dotenv from 'dotenv';
 import http from 'http';
 import path from 'path';
 import { sequelize } from './models';
@@ -10,8 +10,6 @@ import joinRoutes from './routes/join';
 import pinRoutes from './routes/pins';
 import galleryRoutes from './routes/gallery';
 import { initSocket } from './socket';
-
-dotenv.config();
 
 const app = express();
 const server = http.createServer(app);
