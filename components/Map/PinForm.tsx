@@ -1,4 +1,4 @@
-import { useState, useRef } from 'react';
+import { useState, useEffect } from 'react';
 import api from '@/lib/api';
 import { Category } from '@/types';
 import styles from './PinForm.module.scss';
@@ -25,7 +25,12 @@ export default function PinForm({ tripId, lat, lng, onClose }: PinFormProps) {
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const fileRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    return () => {
+      if (preview) URL.revokeObjectURL(preview);
+    };
+  }, [preview]);
 
   function handlePhoto(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
@@ -112,7 +117,6 @@ export default function PinForm({ tripId, lat, lng, onClose }: PinFormProps) {
             <label className={styles.photoLabel}>
               📷 Add a photo (optional)
               <input
-                ref={fileRef}
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
                 onChange={handlePhoto}

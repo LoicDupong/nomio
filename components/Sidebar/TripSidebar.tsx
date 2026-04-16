@@ -1,4 +1,5 @@
 'use client';
+import { useState } from 'react';
 import Link from 'next/link';
 import { useTripStore } from '@/store/tripStore';
 import { Category } from '@/types';
@@ -13,13 +14,20 @@ const CATEGORY_EMOJI: Record<Category, string> = {
 
 export default function TripSidebar({ tripId }: { tripId: string }) {
   const { trip, pins } = useTripStore();
+  const [copied, setCopied] = useState(false);
 
   function copyInviteLink() {
     if (!trip) return;
     const url = `${window.location.origin}/join/${trip.invite_code}`;
-    navigator.clipboard.writeText(url).catch(() => {
-      // Clipboard API may fail in some browsers — silently ignore
-    });
+    navigator.clipboard.writeText(url)
+      .then(() => {
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      })
+      .catch(() => {
+        // Clipboard not available - show the code so user can copy manually
+        alert(`Invite code: ${trip.invite_code}`);
+      });
   }
 
   return (
@@ -33,7 +41,7 @@ export default function TripSidebar({ tripId }: { tripId: string }) {
             title="Copy invite link"
             type="button"
           >
-            {trip.invite_code} 🔗
+            {copied ? '✓ Copied!' : `${trip.invite_code} 🔗`}
           </button>
         )}
       </div>
