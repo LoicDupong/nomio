@@ -1,4 +1,5 @@
 import { Router, Response } from 'express';
+import multer from 'multer';
 import { anyMember, MemberRequest } from '../middleware/anyMember';
 import { upload } from '../middleware/upload';
 import { Pin, TripMember, GalleryPhoto } from '../models';
@@ -27,8 +28,20 @@ router.get('/:id/pins', anyMember, async (req: MemberRequest, res: Response) => 
 });
 
 // POST /trips/:id/pins
-router.post('/:id/pins', anyMember, upload.single('photo'), async (req: MemberRequest, res: Response) => {
-  const { title, category, note } = req.body;
+router.post(
+  '/:id/pins',
+  anyMember,
+  (req, res, next) => {
+    upload.single('photo')(req, res, (err) => {
+      if (err) {
+        return res.status(400).json({ error: err.message || 'File upload error' });
+      }
+      next();
+    });
+  },
+  async (req: MemberRequest, res: Response) => {
+  const { title, note } = req.body;
+  const category = String(req.body.category || '').trim().toLowerCase();
   const lat = parseFloat(req.body.lat);
   const lng = parseFloat(req.body.lng);
 
@@ -36,8 +49,8 @@ router.post('/:id/pins', anyMember, upload.single('photo'), async (req: MemberRe
     return res.status(400).json({ error: 'title, category, lat, lng are required' });
   }
 
-  const validCategories = ['food', 'spot', 'hotel', 'activity'];
-  if (!validCategories.includes(category)) {
+  const validCategories = ['food', 'spot', 'hotel', 'activity'] as const;
+  if (!validCategories.includes(category as typeof validCategories[number])) {
     return res.status(400).json({ error: 'Invalid category' });
   }
 
@@ -53,7 +66,7 @@ router.post('/:id/pins', anyMember, upload.single('photo'), async (req: MemberRe
       lng,
       title: String(title).trim(),
       note: note ? String(note).trim() : null,
-      category,
+      category: category as typeof validCategories[number],
       photo_url,
     });
 
