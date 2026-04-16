@@ -1,5 +1,5 @@
 import { Request, Response, NextFunction } from 'express';
-import jwt from 'jsonwebtoken';
+import jwt, { JsonWebTokenError } from 'jsonwebtoken';
 import { TripMember } from '../models';
 import { AuthRequest } from './auth';
 import { GuestRequest } from './guestAuth';
@@ -15,6 +15,7 @@ export async function anyMember(req: MemberRequest, res: Response, next: NextFun
   // Try JWT auth first
   const authHeader = req.headers.authorization?.split(' ')[1];
   if (authHeader) {
+    let userId: string;
     try {
       const payload = jwt.verify(authHeader, process.env.JWT_SECRET!) as {
         id: string;
@@ -22,12 +23,25 @@ export async function anyMember(req: MemberRequest, res: Response, next: NextFun
         display_name: string;
       };
       req.user = payload;
-      const member = await TripMember.findOne({ where: { trip_id: tripId, user_id: payload.id } });
-      if (!member) return res.status(403).json({ error: 'Not a trip member' });
-      req.memberId = member.id;
-      return next();
-    } catch {
-      // fall through to guest check
+      userId = payload.id;
+    } catch (err) {
+      if (!(err instanceof JsonWebTokenError)) {
+        // Not a JWT error — unexpected, fall through to guest or return 500
+        return res.status(500).json({ error: 'Internal server error' });
+      }
+      // JWT is invalid — fall through to guest check
+      userId = '';
+    }
+
+    if (userId) {
+      try {
+        const member = await TripMember.findOne({ where: { trip_id: tripId, user_id: userId } });
+        if (!member) return res.status(403).json({ error: 'Not a trip member' });
+        req.memberId = member.id;
+        return next();
+      } catch {
+        return res.status(500).json({ error: 'Internal server error' });
+      }
     }
   }
 
