@@ -44,8 +44,9 @@ export default function LoginPage() {
         <h1 className={styles.title}>Welcome back</h1>
         <form onSubmit={handleSubmit}>
           <div className={styles.field}>
-            <label>Email</label>
+            <label htmlFor="email">Email</label>
             <input
+              id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -53,8 +54,9 @@ export default function LoginPage() {
             />
           </div>
           <div className={styles.field}>
-            <label>Password</label>
+            <label htmlFor="password">Password</label>
             <input
+              id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

@@ -41,8 +41,9 @@ export default function RegisterPage() {
         <h1 className={styles.title}>Create account</h1>
         <form onSubmit={handleSubmit}>
           <div className={styles.field}>
-            <label>Name</label>
+            <label htmlFor="display-name">Name</label>
             <input
+              id="display-name"
               type="text"
               value={displayName}
               onChange={(e) => setDisplayName(e.target.value)}
@@ -50,8 +51,9 @@ export default function RegisterPage() {
             />
           </div>
           <div className={styles.field}>
-            <label>Email</label>
+            <label htmlFor="email">Email</label>
             <input
+              id="email"
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
@@ -59,8 +61,9 @@ export default function RegisterPage() {
             />
           </div>
           <div className={styles.field}>
-            <label>Password</label>
+            <label htmlFor="password">Password</label>
             <input
+              id="password"
               type="password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}

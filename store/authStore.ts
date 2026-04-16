@@ -44,12 +44,18 @@ export const useAuthStore = create<AuthStore>((set) => ({
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
         set({ token, user: { id: payload.id, email: payload.email, display_name: payload.display_name } });
-      } catch {}
+      } catch {
+        localStorage.removeItem('token');
+        set({ token: null, user: null });
+      }
     } else if (guestToken) {
       try {
         const payload = JSON.parse(atob(guestToken.split('.')[1]));
         set({ guestToken, guestName: payload.guest_name });
-      } catch {}
+      } catch {
+        localStorage.removeItem('guest_token');
+        set({ guestToken: null, guestName: null });
+      }
     }
   },
 }));
