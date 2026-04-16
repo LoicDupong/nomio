@@ -8,6 +8,8 @@ import authRoutes from './routes/auth';
 import tripRoutes from './routes/trips';
 import joinRoutes from './routes/join';
 import pinRoutes from './routes/pins';
+import galleryRoutes from './routes/gallery';
+import { initSocket } from './socket';
 
 dotenv.config();
 
@@ -22,8 +24,11 @@ app.use('/auth', authRoutes);
 app.use('/trips', tripRoutes);
 app.use('/join', joinRoutes);
 app.use('/trips', pinRoutes);
+app.use('/trips', galleryRoutes);
 
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
+
+initSocket(server);
 
 const PORT = process.env.PORT || 4000;
 
