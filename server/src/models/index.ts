@@ -1,6 +1,4 @@
 import { Sequelize } from 'sequelize';
-import dotenv from 'dotenv';
-dotenv.config();
 
 export const sequelize = new Sequelize(process.env.DATABASE_URL!, {
   dialect: 'postgres',
@@ -34,5 +32,6 @@ Trip.hasMany(GalleryPhoto, { foreignKey: 'trip_id', as: 'gallery_photos' });
 
 GalleryPhoto.belongsTo(TripMember, { foreignKey: 'member_id', as: 'member' });
 GalleryPhoto.belongsTo(Pin, { foreignKey: 'pin_id', as: 'pin' });
+Pin.hasMany(GalleryPhoto, { foreignKey: 'pin_id', as: 'gallery_photos' });
 
 export { User, Trip, TripMember, Pin, GalleryPhoto };
