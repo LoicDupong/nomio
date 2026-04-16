@@ -5,6 +5,8 @@ import http from 'http';
 import path from 'path';
 import { sequelize } from './models';
 import authRoutes from './routes/auth';
+import tripRoutes from './routes/trips';
+import joinRoutes from './routes/join';
 
 dotenv.config();
 
@@ -16,6 +18,8 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 app.use('/auth', authRoutes);
+app.use('/trips', tripRoutes);
+app.use('/join', joinRoutes);
 
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 
