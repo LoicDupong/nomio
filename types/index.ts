@@ -35,6 +35,8 @@ export interface Pin {
   note: string | null;
   category: Category;
   photo_url: string | null;
+  rating: number | null;
+  budget: number | null;
   created_at: string;
   member?: TripMember;
 }
@@ -47,5 +49,10 @@ export interface GalleryPhoto {
   url: string;
   created_at: string;
   member?: TripMember;
-  pin?: Pin;
+  pin?: {
+    id: string;
+    lat: number;
+    lng: number;
+    title: string;
+  };
 }

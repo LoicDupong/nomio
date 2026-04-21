@@ -43,6 +43,11 @@ export const useAuthStore = create<AuthStore>((set) => ({
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
+        if (payload.exp && Date.now() / 1000 > payload.exp) {
+          localStorage.removeItem('token');
+          set({ token: null, user: null });
+          return;
+        }
         set({ token, user: { id: payload.id, email: payload.email, display_name: payload.display_name } });
       } catch {
         localStorage.removeItem('token');
@@ -51,6 +56,11 @@ export const useAuthStore = create<AuthStore>((set) => ({
     } else if (guestToken) {
       try {
         const payload = JSON.parse(atob(guestToken.split('.')[1]));
+        if (payload.exp && Date.now() / 1000 > payload.exp) {
+          localStorage.removeItem('guest_token');
+          set({ guestToken: null, guestName: null });
+          return;
+        }
         set({ guestToken, guestName: payload.guest_name });
       } catch {
         localStorage.removeItem('guest_token');

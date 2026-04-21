@@ -19,7 +19,10 @@ export default function LoginPage() {
   }, []);
 
   useEffect(() => {
-    if (token) router.replace('/');
+    if (token) {
+      const next = new URLSearchParams(window.location.search).get('next');
+      router.replace(next || '/');
+    }
   }, [token, router]);
 
   async function handleSubmit(e: React.FormEvent) {
@@ -29,7 +32,8 @@ export default function LoginPage() {
     try {
       const res = await api.post('/auth/login', { email, password });
       setAuth(res.data.token, res.data.user);
-      router.push('/');
+      const next = new URLSearchParams(window.location.search).get('next');
+      router.push(next || '/');
     } catch (err: unknown) {
       const e = err as { response?: { data?: { error?: string } } };
       setError(e.response?.data?.error || 'Login failed');

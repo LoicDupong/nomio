@@ -11,10 +11,12 @@ interface PinAttributes {
   note: string | null;
   category: 'food' | 'spot' | 'hotel' | 'activity';
   photo_url: string | null;
+  rating: number | null;
+  budget: number | null;
   created_at?: Date;
 }
 
-interface PinCreationAttributes extends Optional<PinAttributes, 'id' | 'created_at'> {}
+interface PinCreationAttributes extends Optional<PinAttributes, 'id' | 'created_at' | 'rating' | 'budget'> {}
 
 export class Pin extends Model<PinAttributes, PinCreationAttributes> implements PinAttributes {
   public id!: string;
@@ -26,6 +28,8 @@ export class Pin extends Model<PinAttributes, PinCreationAttributes> implements 
   public note!: string | null;
   public category!: 'food' | 'spot' | 'hotel' | 'activity';
   public photo_url!: string | null;
+  public rating!: number | null;
+  public budget!: number | null;
   public created_at!: Date;
 }
 
@@ -40,6 +44,8 @@ Pin.init(
     note: { type: DataTypes.TEXT, allowNull: true },
     category: { type: DataTypes.ENUM('food', 'spot', 'hotel', 'activity'), allowNull: false },
     photo_url: { type: DataTypes.STRING, allowNull: true },
+    rating: { type: DataTypes.INTEGER, allowNull: true },
+    budget: { type: DataTypes.DECIMAL(10, 2), allowNull: true },
     created_at: { type: DataTypes.DATE, defaultValue: DataTypes.NOW },
   },
   { sequelize, tableName: 'pins', timestamps: false }

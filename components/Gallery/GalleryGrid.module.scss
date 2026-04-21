@@ -17,6 +17,9 @@
   overflow: hidden;
   cursor: pointer;
   background: $color-bg;
+  border: none;
+  padding: 0;
+  display: block;
 
   &:hover .overlay {
     opacity: 1;

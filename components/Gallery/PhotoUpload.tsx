@@ -1,5 +1,7 @@
 'use client';
 import { useState } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import api from '@/lib/api';
 import { GalleryPhoto } from '@/types';
 import styles from './PhotoUpload.module.scss';
@@ -37,7 +39,7 @@ export default function PhotoUpload({ tripId, onUploaded }: PhotoUploadProps) {
         <div className={styles.uploading}>Uploading...</div>
       ) : (
         <label className={styles.label} htmlFor="gallery-upload">
-          📷 Upload a photo to gallery
+          <FontAwesomeIcon icon={faCamera} /> Upload a photo to gallery
           <input
             id="gallery-upload"
             type="file"

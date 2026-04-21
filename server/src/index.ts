@@ -14,7 +14,7 @@ import { initSocket } from './socket';
 const app = express();
 const server = http.createServer(app);
 
-app.use(cors({ origin: 'http://localhost:3000', credentials: true }));
+app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:3000', credentials: true }));
 app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
@@ -30,7 +30,7 @@ initSocket(server);
 
 const PORT = process.env.PORT || 4000;
 
-sequelize.sync({ alter: false }).then(() => {
+sequelize.sync({ alter: true }).then(() => {
   server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
 });
 

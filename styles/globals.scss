@@ -7,11 +7,12 @@
 }
 
 html, body {
-  font-family: $font-base;
+  font-family: var(--font-figtree, #{$font-base});
   font-size: 16px;
   color: $color-text;
   background: $color-bg;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -21,12 +22,20 @@ a {
 
 button {
   cursor: pointer;
-  font-family: $font-base;
+  font-family: inherit;
   border: none;
   background: none;
   min-height: 44px;
+  transition: opacity $transition-fast, background $transition-fast, color $transition-fast, border-color $transition-fast, box-shadow $transition-fast;
 }
 
 input, textarea, select {
-  font-family: $font-base;
+  font-family: inherit;
+  color: $color-text;
+}
+
+input:focus, textarea:focus, select:focus {
+  outline: none;
+  border-color: $color-primary !important;
+  box-shadow: 0 0 0 3px $color-border-focus;
 }

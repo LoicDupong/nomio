@@ -1,0 +1,37 @@
+@import '@/styles/variables';
+
+.stars {
+  display: flex;
+  gap: 0.1rem;
+}
+
+.star {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: $color-border;
+  line-height: 1;
+  padding: 0;
+  transition: color 0.1s;
+  min-height: auto;
+
+  &.filled {
+    color: #f59e0b;
+  }
+
+  &:disabled {
+    cursor: default;
+  }
+
+  &:not(:disabled):hover {
+    color: #f59e0b;
+  }
+}
+
+.md .star {
+  font-size: 1.5rem;
+}
+
+.sm .star {
+  font-size: 0.95rem;
+}

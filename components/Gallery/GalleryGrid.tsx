@@ -1,6 +1,10 @@
 'use client';
-import { useRouter } from 'next/navigation';
+import { useState } from 'react';
 import { GalleryPhoto } from '@/types';
+import { photoUrl } from '@/lib/photoUrl';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faLocationDot } from '@fortawesome/free-solid-svg-icons';
+import PhotoModal from './PhotoModal';
 import styles from './GalleryGrid.module.scss';
 
 interface GalleryGridProps {
@@ -9,41 +13,44 @@ interface GalleryGridProps {
 }
 
 export default function GalleryGrid({ photos, tripId }: GalleryGridProps) {
-  const router = useRouter();
-
-  function handleClick(photo: GalleryPhoto) {
-    if (photo.pin_id) {
-      router.push(`/trip/${tripId}?pin=${photo.pin_id}`);
-    }
-  }
+  const [selectedPhoto, setSelectedPhoto] = useState<GalleryPhoto | null>(null);
 
   return (
-    <div className={styles.grid}>
-      {photos.length === 0 && (
-        <div className={styles.empty}>No photos yet. Add the first one!</div>
+    <>
+      <div className={styles.grid}>
+        {photos.length === 0 && (
+          <div className={styles.empty}>No photos yet. Add the first one!</div>
+        )}
+        {photos.map((photo) => (
+          <button
+            key={photo.id}
+            type="button"
+            className={styles.item}
+            onClick={() => setSelectedPhoto(photo)}
+            aria-label={photo.pin?.title ?? 'View photo'}
+          >
+            <img
+              src={photoUrl(photo.url)!}
+              alt={photo.pin?.title ?? ''}
+              className={styles.photo}
+              loading="lazy"
+            />
+            {photo.pin_id && (
+              <div className={styles.overlay}>
+                <FontAwesomeIcon icon={faLocationDot} className={styles.overlayIcon} />
+              </div>
+            )}
+          </button>
+        ))}
+      </div>
+
+      {selectedPhoto && (
+        <PhotoModal
+          photo={selectedPhoto}
+          tripId={tripId}
+          onClose={() => setSelectedPhoto(null)}
+        />
       )}
-      {photos.map((photo) => (
-        <div
-          key={photo.id}
-          className={styles.item}
-          onClick={() => handleClick(photo)}
-          role={photo.pin_id ? 'button' : undefined}
-          tabIndex={photo.pin_id ? 0 : undefined}
-          onKeyDown={photo.pin_id ? (e) => e.key === 'Enter' && handleClick(photo) : undefined}
-          aria-label={photo.pin_id ? 'Go to pin on map' : undefined}
-        >
-          <img
-            src={`${process.env.NEXT_PUBLIC_API_URL}${photo.url}`}
-            alt=""
-            className={styles.photo}
-          />
-          {photo.pin_id && (
-            <div className={styles.overlay}>
-              <span className={styles.overlayIcon}>📍</span>
-            </div>
-          )}
-        </div>
-      ))}
-    </div>
+    </>
   );
 }

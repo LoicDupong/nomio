@@ -1,0 +1,98 @@
+@import '@/styles/variables';
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 2000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal {
+  background: $color-surface;
+  border-radius: $radius-lg;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 400px;
+  box-shadow: $shadow-md;
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: $color-text;
+  margin-bottom: 1.25rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  margin-bottom: 1rem;
+
+  label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: $color-text;
+  }
+
+  input {
+    padding: 0.625rem 0.75rem;
+    border: 1.5px solid $color-border;
+    border-radius: $radius-sm;
+    font-size: 0.95rem;
+    outline: none;
+    transition: border-color 0.2s;
+
+    &:focus {
+      border-color: $color-primary;
+    }
+  }
+}
+
+.error {
+  font-size: 0.8rem;
+  color: $color-danger;
+  margin-bottom: 0.75rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+  justify-content: flex-end;
+}
+
+.btnCancel {
+  padding: 0.625rem 1.125rem;
+  border: 1.5px solid $color-border;
+  border-radius: $radius-sm;
+  background: transparent;
+  color: $color-text-muted;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+
+  &:hover {
+    background: $color-bg;
+  }
+}
+
+.btnSave {
+  padding: 0.625rem 1.25rem;
+  border: none;
+  border-radius: $radius-sm;
+  background: $color-primary;
+  color: white;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 600;
+  transition: opacity 0.2s;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

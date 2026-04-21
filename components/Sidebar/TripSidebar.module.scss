@@ -4,20 +4,46 @@
   display: flex;
   flex-direction: column;
   height: 100%;
+  overflow: hidden;
+  background: $color-surface;
 }
 
+/* ─── Header ─────────────────────────────────────────── */
+
 .header {
-  padding: 1.25rem 1rem;
+  padding: 0.875rem 1rem;
   border-bottom: 1px solid $color-border;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.75rem;
   flex-shrink: 0;
 }
 
+.headerTop {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-width: 0;
+}
+
+.btnBack {
+  width: 32px;
+  height: 32px;
+  min-height: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-sm;
+  color: $color-text-muted;
+  flex-shrink: 0;
+  font-size: 0.85rem;
+  transition: background $transition-fast, color $transition-fast;
+
+  &:hover {
+    background: $color-surface-alt;
+    color: $color-text;
+  }
+}
+
 .tripName {
-  font-size: 1.1rem;
+  font-size: 0.95rem;
   font-weight: 700;
   color: $color-text;
   flex: 1;
@@ -27,45 +53,393 @@
   white-space: nowrap;
 }
 
-.inviteCode {
-  font-size: 0.75rem;
-  font-weight: 600;
-  background: $color-bg;
-  border: 1px solid $color-border;
-  padding: 0.3rem 0.6rem;
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+  flex-shrink: 0;
+}
+
+.btnIcon {
+  width: 30px;
+  height: 30px;
+  min-height: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   border-radius: $radius-sm;
   color: $color-text-muted;
+  font-size: 0.75rem;
+  transition: background $transition-fast, color $transition-fast;
+
+  &:hover {
+    background: $color-surface-alt;
+    color: $color-text;
+  }
+}
+
+.btnInvite {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.25rem 0.6rem;
+  min-height: unset;
+  background: $color-surface-alt;
+  border: 1px solid $color-border;
+  border-radius: $radius-full;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: $color-text-muted;
+  letter-spacing: 0.04em;
   cursor: pointer;
+  transition: background $transition-fast, color $transition-fast, border-color $transition-fast;
+  white-space: nowrap;
+
+  svg {
+    font-size: 0.65rem;
+  }
+
+  &:hover {
+    background: $color-border;
+    color: $color-text;
+  }
+
+  &.btnInviteCopied {
+    background: #dcfce7;
+    border-color: #86efac;
+    color: #15803d;
+  }
+}
+
+/* ─── Mobile tab bar ──────────────────────────────────── */
+
+.tabBar {
+  display: none;
   flex-shrink: 0;
-  transition: background 0.2s;
+  border-bottom: 1px solid $color-border;
+
+  @media (max-width: 768px) {
+    display: flex;
+  }
+}
+
+.tab {
+  flex: 1;
+  padding: 0.625rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  background: transparent;
+  border: none;
+  color: $color-text-muted;
+  cursor: pointer;
+  border-bottom: 2px solid transparent;
+  min-height: unset;
+  transition: color $transition-fast, border-color $transition-fast;
+
+  &.tabActive {
+    color: $color-primary;
+    border-bottom-color: $color-primary;
+  }
+}
+
+/* ─── Mobile hide helper ──────────────────────────────── */
+
+.mobileHide {
+  @media (max-width: 768px) {
+    display: none !important;
+  }
+}
+
+/* ─── Info content ────────────────────────────────────── */
+
+.infoContent {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  overflow-y: auto;
+  padding: 0.75rem 1rem;
+  gap: 0.25rem;
+
+  @media (max-width: 768px) {
+    flex: 1;
+  }
+}
+
+.galleryLink {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.6rem 0.875rem;
+  background: $color-surface-alt;
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: $color-text;
+  transition: background $transition-fast, border-color $transition-fast;
+
+  svg {
+    color: $color-primary;
+    font-size: 0.9rem;
+  }
+
+  &:hover {
+    background: $color-border;
+    border-color: darken($color-border, 8%);
+  }
+}
+
+/* ─── Participants ────────────────────────────────────── */
+
+.participantsSection {
+  border: 1px solid $color-border;
+  border-radius: $radius-sm;
+  overflow: hidden;
+  margin-top: 0.25rem;
+}
+
+.participantsToggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.6rem 0.875rem;
+  background: $color-surface-alt;
+  border: none;
+  cursor: pointer;
+  min-height: unset;
+  transition: background $transition-fast;
 
   &:hover {
     background: $color-border;
   }
 }
 
+.participantsLabel {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: $color-text-muted;
+
+  svg {
+    font-size: 0.75rem;
+  }
+
+  em {
+    font-style: normal;
+    color: $color-text-subtle;
+    font-weight: 500;
+  }
+}
+
+.chevron {
+  font-size: 0.6rem;
+  color: $color-text-subtle;
+}
+
+.membersList {
+  padding: 0.5rem 0.75rem 0.625rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.memberItem {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  padding: 0.3rem 0.25rem;
+  border-radius: $radius-xs;
+}
+
+.memberAvatar {
+  width: 26px;
+  height: 26px;
+  border-radius: 50%;
+  background: $color-primary;
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.memberName {
+  font-size: 0.825rem;
+  color: $color-text;
+  flex: 1;
+}
+
+.ownerBadge {
+  font-size: 0.6rem;
+  font-weight: 700;
+  color: $color-primary;
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: $radius-full;
+  padding: 0.1rem 0.45rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* ─── Pins section ────────────────────────────────────── */
+
+.pinsSection {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  border-top: 1px solid $color-border;
+
+  @media (max-width: 768px) {
+    flex: 1;
+  }
+}
+
+.pinsSectionHeader {
+  flex-shrink: 0;
+  padding: 0.75rem 1rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.pinsSectionLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.625rem;
+  min-width: 0;
+}
+
+.sectionLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: $color-text-muted;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.pinsCount {
+  background: $color-surface-alt;
+  border: 1px solid $color-border;
+  border-radius: $radius-full;
+  padding: 0.05rem 0.45rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: $color-text-muted;
+  letter-spacing: 0;
+}
+
+.avgRating {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: $color-text-muted;
+}
+
+.avgStar {
+  color: $color-warning;
+  font-size: 0.7rem;
+}
+
+/* ─── Filters ─────────────────────────────────────────── */
+
+.filters {
+  display: flex;
+  gap: 0.25rem;
+}
+
+.filterChip {
+  width: 30px;
+  height: 30px;
+  min-height: unset;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: $radius-sm;
+  font-size: 0.75rem;
+  border: 1px solid $color-border;
+  background: $color-surface-alt;
+  color: $color-text-muted;
+  cursor: pointer;
+  transition: all $transition-fast;
+
+  &.filterActive {
+    background: $color-primary;
+    border-color: $color-primary;
+    color: white;
+    box-shadow: 0 1px 4px rgba(37, 99, 235, 0.3);
+  }
+
+  &:hover:not(.filterActive) {
+    background: $color-border;
+    color: $color-text;
+  }
+}
+
+/* ─── Pin list ────────────────────────────────────────── */
+
 .pinsList {
   flex: 1;
   overflow-y: auto;
-  padding: 0.5rem 0;
+  padding: 0.25rem 0;
 }
 
 .pinItem {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 0.75rem;
-  padding: 0.875rem 1rem;
+  padding: 0.625rem 1rem;
   border-bottom: 1px solid $color-border;
+  width: 100%;
+  background: transparent;
+  border-left: none;
+  border-right: none;
+  border-top: none;
+  cursor: pointer;
+  text-align: left;
+  transition: background $transition-fast;
+  min-height: unset;
 
   &:last-child {
     border-bottom: none;
   }
+
+  &:hover {
+    background: $color-bg;
+
+    .pinArrow {
+      opacity: 1;
+      transform: translateX(2px);
+    }
+  }
 }
 
 .pinIcon {
-  font-size: 1.25rem;
+  width: 30px;
+  height: 30px;
+  border-radius: $radius-sm;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
   flex-shrink: 0;
-  margin-top: 0.125rem;
+  color: white;
+
+  &.pinIcon_food     { background: #fef3c7; color: #d97706; }
+  &.pinIcon_spot     { background: #dbeafe; color: #2563eb; }
+  &.pinIcon_hotel    { background: #ede9fe; color: #7c3aed; }
+  &.pinIcon_activity { background: #d1fae5; color: #059669; }
 }
 
 .pinInfo {
@@ -74,7 +448,7 @@
 }
 
 .pinTitle {
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: $color-text;
   overflow: hidden;
@@ -83,32 +457,33 @@
 }
 
 .pinMeta {
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   color: $color-text-muted;
-  margin-top: 0.2rem;
+  margin-top: 0.125rem;
+  display: flex;
+  align-items: center;
+  gap: 0.375rem;
+}
+
+.pinArrow {
+  font-size: 0.65rem;
+  color: $color-text-subtle;
+  flex-shrink: 0;
+  opacity: 0.5;
+  transition: opacity $transition-fast, transform $transition-fast;
 }
 
 .empty {
-  padding: 2rem 1rem;
+  padding: 2.5rem 1.25rem;
   text-align: center;
   color: $color-text-muted;
-  font-size: 0.9rem;
-}
-
-.galleryLink {
-  display: block;
-  margin: 0.75rem 1rem;
-  padding: 0.75rem;
-  background: $color-bg;
-  border: 1.5px solid $color-border;
-  border-radius: $radius-sm;
-  text-align: center;
   font-size: 0.875rem;
-  font-weight: 600;
-  color: $color-text;
-  transition: background 0.2s;
+  line-height: 1.7;
 
-  &:hover {
-    background: $color-border;
+  strong {
+    display: block;
+    color: $color-text;
+    font-weight: 600;
+    margin-bottom: 0.25rem;
   }
 }

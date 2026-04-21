@@ -1,4 +1,5 @@
 import { Router, Response } from 'express';
+import { Op } from 'sequelize';
 import { verifyJWT, AuthRequest } from '../middleware/auth';
 import { anyMember, MemberRequest } from '../middleware/anyMember';
 import { Trip, TripMember, User } from '../models';
@@ -42,6 +43,48 @@ router.post('/', verifyJWT, async (req: AuthRequest, res: Response) => {
     });
 
     res.status(201).json(trip);
+  } catch {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// PATCH /trips/:id — update trip name (owner only)
+router.patch('/:id', verifyJWT, async (req: AuthRequest, res: Response) => {
+  const { name } = req.body;
+  if (!name || !String(name).trim()) return res.status(400).json({ error: 'name is required' });
+
+  try {
+    const trip = await Trip.findByPk(String(req.params.id));
+    if (!trip) return res.status(404).json({ error: 'Trip not found' });
+    if (trip.owner_id !== req.user!.id) return res.status(403).json({ error: 'Owner only' });
+
+    await trip.update({ name: String(name).trim() });
+    res.json(trip);
+  } catch {
+    res.status(500).json({ error: 'Internal server error' });
+  }
+});
+
+// GET /trips/mine — user's trips (created + joined) — must be before /:id
+router.get('/mine', verifyJWT, async (req: AuthRequest, res: Response) => {
+  try {
+    const memberships = await TripMember.findAll({
+      where: { user_id: req.user!.id },
+      attributes: ['role', 'trip_id'],
+    });
+
+    if (memberships.length === 0) return res.json([]);
+
+    const tripIds = memberships.map((m) => m.trip_id);
+    const roleMap = new Map(memberships.map((m) => [m.trip_id, m.role]));
+
+    const trips = await Trip.findAll({
+      where: { id: { [Op.in]: tripIds } },
+      order: [['created_at', 'DESC']],
+    });
+
+    const result = trips.map((t) => ({ ...t.toJSON(), role: roleMap.get(t.id) }));
+    res.json(result);
   } catch {
     res.status(500).json({ error: 'Internal server error' });
   }
