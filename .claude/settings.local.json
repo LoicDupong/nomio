@@ -3,7 +3,8 @@
     "allow": [
       "Bash(npm init *)",
       "Bash(npx tsc *)",
-      "Bash(npm install *)"
+      "Bash(npm install *)",
+      "Bash(node -e ' *)"
     ]
   }
 }
