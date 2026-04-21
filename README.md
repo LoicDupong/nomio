@@ -64,7 +64,7 @@ Simple to use. Real-time by design. Built for the people you travel with.
 
 | Layer | Technology |
 |-------|------------|
-| Frontend | Next.js 14 (App Router), React, SCSS |
+| Frontend | Next.js, React, SCSS |
 | Backend | Node.js, Express |
 | Database | PostgreSQL + Sequelize |
 | State | Zustand |
