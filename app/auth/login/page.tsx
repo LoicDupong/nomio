@@ -45,6 +45,7 @@ export default function LoginPage() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
+        <div className={styles.brand}>Nomio</div>
         <h1 className={styles.title}>Welcome back</h1>
         <form onSubmit={handleSubmit}>
           <div className={styles.field}>

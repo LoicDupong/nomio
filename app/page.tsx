@@ -15,7 +15,6 @@ interface MyTrip {
   role: 'owner' | 'member';
 }
 
-// Extract a 6-char alphanumeric code from either a raw code or a full URL
 function parseInviteCode(raw: string): string {
   const trimmed = raw.trim().replace(/\/+$/, '');
   const match = trimmed.match(/\/join\/([A-Za-z0-9]{6})\/?$/i);
@@ -33,7 +32,6 @@ export default function LandingPage() {
   const [error, setError] = useState('');
   const [myTrips, setMyTrips] = useState<MyTrip[]>([]);
   const [tripsLoading, setTripsLoading] = useState(false);
-  // Code pending choice when non-authenticated user hits Join
   const [pendingJoinCode, setPendingJoinCode] = useState<string | null>(null);
 
   useEffect(() => {
@@ -70,7 +68,6 @@ export default function LandingPage() {
     if (!joinCode.trim()) return;
     const code = parseInviteCode(joinCode);
     if (!token) {
-      // Let the user choose: guest or sign in
       setPendingJoinCode(code);
       return;
     }
@@ -79,24 +76,32 @@ export default function LandingPage() {
 
   return (
     <div className={styles.page}>
-      {/* Top bar — only when logged in */}
-      {user && (
-        <div className={styles.topBar}>
-          <span className={styles.greeting}>Hi, {user.display_name}</span>
-          <button
-            type="button"
-            className={styles.btnTopLogout}
-            onClick={() => logout()}
-          >
-            Logout
-          </button>
+      {/* Persistent nav — always visible */}
+      <nav className={styles.nav}>
+        <span className={styles.navBrand}>Nomio</span>
+        {user ? (
+          <div className={styles.navRight}>
+            <span className={styles.greeting}>Hi, {user.display_name}</span>
+            <button
+              type="button"
+              className={styles.btnNavLogout}
+              onClick={() => logout()}
+            >
+              Logout
+            </button>
+          </div>
+        ) : (
+          <Link href="/auth/login" className={styles.navSignIn}>Sign in</Link>
+        )}
+      </nav>
+
+      {/* Hero — only for unauthenticated users */}
+      {!user && (
+        <div className={styles.hero}>
+          <h1>Pin memories,<br />share the journey.</h1>
+          <p>A collaborative map journal for your travel crew.</p>
         </div>
       )}
-
-      <div className={styles.hero}>
-        <h1>Travel Memory Map</h1>
-        <p>Pin memories on a map with your travel crew</p>
-      </div>
 
       <div className={styles.card}>
         {user ? (
@@ -155,7 +160,6 @@ export default function LandingPage() {
         </form>
       </div>
 
-      {/* My trips — only for logged-in users */}
       {user && (
         <div className={styles.myTrips}>
           <h2 className={styles.myTripsTitle}>My trips</h2>
@@ -191,7 +195,6 @@ export default function LandingPage() {
         </div>
       )}
 
-      {/* Join choice modal — shown when non-authenticated user submits join form */}
       {pendingJoinCode && (
         <div className={styles.modalOverlay} onClick={() => setPendingJoinCode(null)}>
           <div className={styles.modalCard} onClick={(e) => e.stopPropagation()}>

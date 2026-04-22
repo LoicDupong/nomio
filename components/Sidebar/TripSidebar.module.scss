@@ -1,4 +1,4 @@
-@import '@/styles/variables';
+@use '@/styles/variables' as *;
 
 .sidebar {
   display: flex;
@@ -185,7 +185,7 @@
 
   &:hover {
     background: $color-border;
-    border-color: darken($color-border, 8%);
+    border-color: #c9c9de;
   }
 }
 
@@ -278,8 +278,8 @@
   font-size: 0.6rem;
   font-weight: 700;
   color: $color-primary;
-  background: #eff6ff;
-  border: 1px solid #bfdbfe;
+  background: #e0e7ff;
+  border: 1px solid #c7d2fe;
   border-radius: $radius-full;
   padding: 0.1rem 0.45rem;
   text-transform: uppercase;
@@ -378,7 +378,7 @@
     background: $color-primary;
     border-color: $color-primary;
     color: white;
-    box-shadow: 0 1px 4px rgba(37, 99, 235, 0.3);
+    box-shadow: 0 1px 4px rgba(79, 70, 229, 0.3);
   }
 
   &:hover:not(.filterActive) {
@@ -437,7 +437,7 @@
   color: white;
 
   &.pinIcon_food     { background: #fef3c7; color: #d97706; }
-  &.pinIcon_spot     { background: #dbeafe; color: #2563eb; }
+  &.pinIcon_spot     { background: #e0e7ff; color: #4f46e5; }
   &.pinIcon_hotel    { background: #ede9fe; color: #7c3aed; }
   &.pinIcon_activity { background: #d1fae5; color: #059669; }
 }

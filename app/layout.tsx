@@ -10,8 +10,8 @@ const figtree = Figtree({
 });
 
 export const metadata: Metadata = {
-  title: 'Travel Memory Map',
-  description: 'Pin memories on a map with friends',
+  title: 'Nomio',
+  description: 'Plan and relive your trips together.',
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

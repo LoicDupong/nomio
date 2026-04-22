@@ -1,4 +1,4 @@
-@import '@/styles/variables';
+@use '@/styles/variables' as *;
 
 .page {
   min-height: 100vh;
@@ -16,13 +16,23 @@
   width: 100%;
   max-width: 400px;
   box-shadow: $shadow-md;
+  border: 1px solid $color-border;
+}
+
+.brand {
+  font-size: 1.125rem;
+  font-weight: 800;
+  color: $color-primary;
+  letter-spacing: -0.04em;
+  margin-bottom: 1rem;
 }
 
 .title {
-  font-size: 1.5rem;
+  font-size: 1.375rem;
   font-weight: 700;
   margin-bottom: 1.5rem;
   color: $color-text;
+  letter-spacing: -0.02em;
 }
 
 .field {
@@ -32,28 +42,35 @@
   margin-bottom: 1rem;
 
   label {
-    font-size: 0.875rem;
-    font-weight: 500;
+    font-size: 0.8rem;
+    font-weight: 600;
     color: $color-text-muted;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
   }
 
   input {
     border: 1.5px solid $color-border;
     border-radius: $radius-sm;
     padding: 0.75rem 1rem;
-    font-size: 1rem;
-    transition: border-color 0.2s;
+    font-size: 0.9375rem;
+    background: $color-surface;
+    color: $color-text;
+    transition: border-color $transition-fast, box-shadow $transition-fast;
 
-    &:focus {
-      outline: none;
-      border-color: $color-primary;
+    &::placeholder {
+      color: $color-text-subtle;
     }
   }
 }
 
 .error {
   color: $color-danger;
-  font-size: 0.875rem;
+  font-size: 0.8rem;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-radius: $radius-sm;
+  padding: 0.5rem 0.75rem;
   margin-bottom: 1rem;
 }
 
@@ -63,9 +80,13 @@
   color: white;
   border-radius: $radius-sm;
   padding: 0.875rem;
-  font-size: 1rem;
+  font-size: 0.9375rem;
   font-weight: 600;
-  transition: opacity 0.2s;
+  transition: background $transition-fast;
+
+  &:hover:not(:disabled) {
+    background: $color-primary-dark;
+  }
 
   &:disabled {
     opacity: 0.6;
@@ -80,6 +101,6 @@
 
   a {
     color: $color-primary;
-    font-weight: 500;
+    font-weight: 600;
   }
 }

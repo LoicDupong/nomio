@@ -1,8 +1,8 @@
-# Travel Memory Map
+# Nomio
 
 **Pin your trips. Share the moments. Relive every place.**
 
-Travel Memory Map is a collaborative travel journal built around an interactive map. Drop pins on the places you visited, add notes, photos, and ratings — then share the whole trip with friends in one click, no account needed.
+Nomio is a collaborative travel journal built around an interactive map. Drop pins on the places you visited, add notes, photos, and ratings — then share the whole trip with friends in one click, no account needed.
 
 Simple to use. Real-time by design. Built for the people you travel with.
 
@@ -87,7 +87,7 @@ The frontend and backend communicate over a REST API. Real-time updates are push
 
 ## Beta Status
 
-Travel Memory Map is currently in **beta**.
+Nomio is currently in **beta**.
 
 The core features work and have been tested, but you may encounter rough edges — occasional UI hiccups, edge cases in file uploads, or minor inconsistencies. This is a project in active development, not a polished production release.
 
@@ -120,4 +120,4 @@ Things coming in future versions:
 
 Built by **Loïc Dupong** — fullstack JavaScript developer (Belgium).
 
-Travel Memory Map is a portfolio project built to demonstrate real-world fullstack development: collaborative features, real-time sync, file handling, and a clean product-focused UI. Built with the same stack I use for production work: Next.js, Express, PostgreSQL, and Zustand.
+Nomio is a portfolio project built to demonstrate real-world fullstack development: collaborative features, real-time sync, file handling, and a clean product-focused UI. Built with the same stack I use for production work: Next.js, Express, PostgreSQL, and Zustand.
