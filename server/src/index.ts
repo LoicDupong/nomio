@@ -36,6 +36,10 @@ sequelize
   .authenticate()
   .then(() => {
     console.log('DB authenticate OK');
+    return sequelize.sync();
+  })
+  .then(() => {
+    console.log('DB sync OK');
     server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch((err) => {
