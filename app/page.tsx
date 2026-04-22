@@ -2,7 +2,6 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import Image from 'next/image';
 import api from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
 import styles from './page.module.scss';
@@ -79,13 +78,7 @@ export default function LandingPage() {
     <div className={styles.page}>
       {/* Persistent nav — always visible */}
       <nav className={styles.nav}>
-        <Image
-          src="/logo/nomio-circles-lockup.svg"
-          alt="Nomio"
-          width={108}
-          height={26}
-          priority
-        />
+        <img src="/logo/nomio-circles-lockup.svg" alt="Nomio" width={108} height={26} />
         {user ? (
           <div className={styles.navRight}>
             <span className={styles.greeting}>Hi, {user.display_name}</span>
