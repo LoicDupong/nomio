@@ -1,18 +1,8 @@
 import multer from 'multer';
-import path from 'path';
-import { v4 as uuidv4 } from 'uuid';
 import { Request } from 'express';
 
 const ALLOWED_TYPES = ['image/jpeg', 'image/png', 'image/webp'];
-const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
-
-const storage = multer.diskStorage({
-  destination: path.join(__dirname, '..', '..', 'uploads'),
-  filename: (_req, file, cb) => {
-    const ext = path.extname(file.originalname).toLowerCase();
-    cb(null, `${uuidv4()}${ext}`);
-  },
-});
+const MAX_SIZE = 15 * 1024 * 1024; // 15 MB raw limit before processing
 
 function fileFilter(
   _req: Request,
@@ -26,4 +16,8 @@ function fileFilter(
   }
 }
 
-export const upload = multer({ storage, fileFilter, limits: { fileSize: MAX_SIZE } });
+export const upload = multer({
+  storage: multer.memoryStorage(),
+  fileFilter,
+  limits: { fileSize: MAX_SIZE },
+});
