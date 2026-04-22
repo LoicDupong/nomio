@@ -8,6 +8,14 @@ export const sequelize = new Sequelize(dbUrl, {
   logging: false,
   dialectOptions: {
     ssl: isPublic ? { require: true, rejectUnauthorized: false } : false,
+    keepAlive: true,
+    keepAliveInitialDelayMillis: 0,
+  },
+  pool: {
+    max: 5,
+    min: 0,
+    acquire: 30000,
+    idle: 10000,
   },
 });
 

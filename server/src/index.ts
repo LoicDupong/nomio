@@ -30,8 +30,15 @@ initSocket(server);
 
 const PORT = process.env.PORT || 4000;
 
-sequelize.sync({ alter: true }).then(() => {
-  server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
-});
+sequelize
+  .authenticate()
+  .then(() => sequelize.sync({ alter: false }))
+  .then(() => {
+    server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+  })
+  .catch((err) => {
+    console.error('DB boot failed:', err);
+    process.exit(1);
+  });
 
 export { server };
