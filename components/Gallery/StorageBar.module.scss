@@ -1,0 +1,53 @@
+@use '@/styles/variables' as *;
+
+.bar {
+  padding: 0.75rem 1rem;
+  background: $color-bg;
+  border-radius: $radius-sm;
+  margin-bottom: 1rem;
+}
+
+.stats {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  color: $color-text-muted;
+  margin-bottom: 0.5rem;
+}
+
+.divider {
+  opacity: 0.4;
+}
+
+.stat {
+  white-space: nowrap;
+}
+
+.track {
+  height: 4px;
+  background: rgba(0, 0, 0, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.fill {
+  height: 100%;
+  background: $color-primary;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.warning .fill {
+  background: $color-warning;
+}
+
+.full .fill {
+  background: $color-danger;
+}
+
+.fullMsg {
+  margin: 0.5rem 0 0;
+  font-size: 0.78rem;
+  color: $color-danger;
+}
