@@ -47,6 +47,7 @@ export interface GalleryPhoto {
   member_id: string;
   pin_id: string | null;
   url: string;
+  size_bytes: number | null;
   created_at: string;
   member?: TripMember;
   pin?: {
@@ -55,4 +56,11 @@ export interface GalleryPhoto {
     lng: number;
     title: string;
   };
+}
+
+export interface TripStorage {
+  photos_used: number;
+  photos_limit: number;
+  bytes_used: number;
+  bytes_limit: number;
 }
