@@ -1,10 +1,13 @@
 import { Sequelize } from 'sequelize';
 
-export const sequelize = new Sequelize(process.env.DATABASE_URL!, {
+const dbUrl = process.env.DATABASE_PUBLIC_URL || process.env.DATABASE_URL!;
+const isPublic = dbUrl.includes('.railway.app') || !dbUrl.includes('.railway.internal');
+
+export const sequelize = new Sequelize(dbUrl, {
   dialect: 'postgres',
   logging: false,
   dialectOptions: {
-    ssl: { require: true, rejectUnauthorized: false },
+    ssl: isPublic ? { require: true, rejectUnauthorized: false } : false,
   },
 });
 
