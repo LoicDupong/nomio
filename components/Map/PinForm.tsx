@@ -5,6 +5,7 @@ import { faCamera, faXmark } from '@fortawesome/free-solid-svg-icons';
 import api from '@/lib/api';
 import { photoUrl } from '@/lib/photoUrl';
 import { Category, Pin } from '@/types';
+import { useTripStore } from '@/store/tripStore';
 import { CATEGORY_ICON, CATEGORY_LABEL } from '@/lib/categories';
 import StarRating from './StarRating';
 import styles from './PinForm.module.scss';
@@ -20,8 +21,17 @@ interface PinFormProps {
   onSuccess?: (updatedPin: Pin) => void;
 }
 
+function getPhotoErrorMessage(err: unknown): string {
+  const e = err as { response?: { status?: number; data?: { error?: string } } };
+  const status = e.response?.status;
+  if (status === 403) return 'This trip has reached the maximum of 100 photos.';
+  if (status === 507) return e.response?.data?.error ?? 'This trip has reached its 1 GB storage limit.';
+  return 'Failed to create pin';
+}
+
 export default function PinForm({ tripId, lat, lng, onClose, pin, onSuccess }: PinFormProps) {
   const isEdit = !!pin;
+  const { storage, updateStorageAfterUpload } = useTripStore();
 
   const [title, setTitle] = useState(pin?.title ?? '');
   const [category, setCategory] = useState<Category>(pin?.category ?? 'spot');
@@ -34,6 +44,12 @@ export default function PinForm({ tripId, lat, lng, onClose, pin, onSuccess }: P
   const [preview, setPreview] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const photoFull =
+    !isEdit &&
+    storage !== null &&
+    (storage.photos_used >= storage.photos_limit ||
+      storage.bytes_used >= storage.bytes_limit);
 
   useEffect(() => {
     return () => {
@@ -75,14 +91,22 @@ export default function PinForm({ tripId, lat, lng, onClose, pin, onSuccess }: P
         if (rating !== null) form.append('rating', String(rating));
         if (budget !== null) form.append('budget', String(budget));
         if (photo) form.append('photo', photo);
-        await api.post(`/trips/${tripId}/pins`, form, {
+        const res = await api.post(`/trips/${tripId}/pins`, form, {
           headers: { 'Content-Type': 'multipart/form-data' },
         });
+        // If pin was created with a photo, update storage stats
+        if (photo && res.data?.photo_url) {
+          updateStorageAfterUpload(0); // size unknown here — storage will refresh on next gallery load
+        }
         onClose();
       }
     } catch (err: unknown) {
-      const e = err as { response?: { data?: { error?: string } } };
-      setError(e.response?.data?.error || (isEdit ? 'Failed to update pin' : 'Failed to create pin'));
+      const e = err as { response?: { data?: { error?: string }; status?: number } };
+      setError(
+        isEdit
+          ? e.response?.data?.error || 'Failed to update pin'
+          : getPhotoErrorMessage(err)
+      );
     } finally {
       setLoading(false);
     }
@@ -135,7 +159,9 @@ export default function PinForm({ tripId, lat, lng, onClose, pin, onSuccess }: P
 
           {/* Note */}
           <div className={styles.field}>
-            <label htmlFor="pin-note">Note <span className={styles.optional}>(optional)</span></label>
+            <label htmlFor="pin-note">
+              Note <span className={styles.optional}>(optional)</span>
+            </label>
             <textarea
               id="pin-note"
               value={note}
@@ -161,7 +187,9 @@ export default function PinForm({ tripId, lat, lng, onClose, pin, onSuccess }: P
 
           {/* Budget */}
           <div className={styles.field}>
-            <label htmlFor="pin-budget">Budget <span className={styles.optional}>(optional)</span></label>
+            <label htmlFor="pin-budget">
+              Budget <span className={styles.optional}>(optional)</span>
+            </label>
             <div className={styles.inputWithAddon}>
               <span className={styles.addon}>€</span>
               <input
@@ -170,7 +198,9 @@ export default function PinForm({ tripId, lat, lng, onClose, pin, onSuccess }: P
                 min="0"
                 step="0.01"
                 value={budget ?? ''}
-                onChange={(e) => setBudget(e.target.value ? parseFloat(e.target.value) : null)}
+                onChange={(e) =>
+                  setBudget(e.target.value ? parseFloat(e.target.value) : null)
+                }
                 placeholder="0.00"
                 className={styles.inputAddon}
               />
@@ -186,12 +216,20 @@ export default function PinForm({ tripId, lat, lng, onClose, pin, onSuccess }: P
                 className={styles.photoPreview}
               />
             ) : null
+          ) : photoFull ? (
+            <p className={styles.photoLimit}>
+              {storage!.photos_used >= storage!.photos_limit
+                ? 'Trip photo limit reached (100 photos).'
+                : 'Trip storage limit reached (1 GB).'}
+            </p>
           ) : preview ? (
             <img src={preview} alt="Preview" className={styles.photoPreview} />
           ) : (
             <label className={styles.photoLabel}>
               <FontAwesomeIcon icon={faCamera} />
-              <span>Add a photo <em>(optional)</em></span>
+              <span>
+                Add a photo <em>(optional)</em>
+              </span>
               <input
                 type="file"
                 accept="image/jpeg,image/png,image/webp"
