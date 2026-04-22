@@ -1,0 +1,89 @@
+@use '@/styles/variables' as *;
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal {
+  background: white;
+  border-radius: 12px;
+  padding: 1.5rem;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+}
+
+.title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0 0 0.75rem;
+}
+
+.warning {
+  font-size: 0.875rem;
+  color: #92400e;
+  background: #fef3c7;
+  border-radius: 8px;
+  padding: 0.75rem;
+  margin: 0 0 1rem;
+  line-height: 1.5;
+}
+
+.body {
+  font-size: 0.875rem;
+  color: $color-text-muted;
+  margin: 0 0 1rem;
+}
+
+.error {
+  font-size: 0.8rem;
+  color: #ef4444;
+  margin: 0 0 0.75rem;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5rem;
+  justify-content: flex-end;
+}
+
+.btnCancel {
+  padding: 0.5rem 1rem;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  border-radius: 8px;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.875rem;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
+.btnDelete {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 8px;
+  background: #ef4444;
+  color: white;
+  cursor: pointer;
+  font-size: 0.875rem;
+  font-weight: 500;
+
+  &:hover:not(:disabled) {
+    background: #dc2626;
+  }
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
