@@ -1,16 +1,14 @@
 import { Sequelize } from 'sequelize';
 
-const dbUrl = process.env.DATABASE_PUBLIC_URL || process.env.DATABASE_URL!;
-const isPublic = dbUrl.includes('.railway.app') || !dbUrl.includes('.railway.internal');
+const dbUrl = process.env.DATABASE_URL;
+
+if (!dbUrl) {
+  throw new Error('DATABASE_URL is missing');
+}
 
 export const sequelize = new Sequelize(dbUrl, {
   dialect: 'postgres',
   logging: false,
-  dialectOptions: {
-    ssl: isPublic ? { require: true, rejectUnauthorized: false } : false,
-    keepAlive: true,
-    keepAliveInitialDelayMillis: 0,
-  },
   pool: {
     max: 5,
     min: 0,
