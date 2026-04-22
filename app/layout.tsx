@@ -12,6 +12,9 @@ const figtree = Figtree({
 export const metadata: Metadata = {
   title: 'Nomio',
   description: 'Plan and relive your trips together.',
+  icons: {
+    icon: '/logo/nomio-circles-app-icon.svg',
+  },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

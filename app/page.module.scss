@@ -30,10 +30,8 @@
 }
 
 .navBrand {
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: $color-primary;
-  letter-spacing: -0.04em;
+  display: flex;
+  align-items: center;
 }
 
 .navRight {

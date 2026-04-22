@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
+import Image from 'next/image';
 import api from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
 import styles from './page.module.scss';
@@ -45,7 +46,15 @@ export default function LoginPage() {
   return (
     <div className={styles.page}>
       <div className={styles.card}>
-        <div className={styles.brand}>Nomio</div>
+        <div className={styles.brand}>
+          <Image
+            src="/logo/nomio-circles-lockup.svg"
+            alt="Nomio"
+            width={108}
+            height={26}
+            priority
+          />
+        </div>
         <h1 className={styles.title}>Welcome back</h1>
         <form onSubmit={handleSubmit}>
           <div className={styles.field}>

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1024" height="1024" viewBox="0 0 180 180" fill="none">
+  <title>Nomio app icon</title>
+  <defs><clipPath id="sq"><rect width="180" height="180" rx="40"/></clipPath></defs>
+  <g clip-path="url(#sq)">
+    <rect width="180" height="180" fill="#6366F1"/>
+    <circle cx="65" cy="75" r="42" fill="#F8FAFC" opacity="0.55"/>
+    <circle cx="115" cy="75" r="42" fill="#F8FAFC" opacity="0.8"/>
+    <circle cx="90" cy="118" r="42" fill="#F8FAFC"/>
+    <circle cx="90" cy="118" r="8" fill="#22C55E"/>
+  </g>
+</svg>
