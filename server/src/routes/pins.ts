@@ -1,9 +1,11 @@
 import { Router, Response } from 'express';
-import path from 'path';
-import fs from 'fs';
+import { v4 as uuidv4 } from 'uuid';
 import { anyMember, MemberRequest } from '../middleware/anyMember';
 import { upload } from '../middleware/upload';
 import { Pin, TripMember, GalleryPhoto, User } from '../models';
+import { processImage } from '../lib/processImage';
+import { uploadToR2, deleteFromR2, buildStorageKey } from '../lib/r2';
+import { checkTripQuota, QuotaError } from '../lib/quotas';
 import { getIO } from '../socket';
 
 const router = Router();
@@ -67,29 +69,62 @@ router.post(
       return res.status(400).json({ error: 'budget must be a positive number' });
     }
 
-    const photo_url = req.file ? `/uploads/${req.file.filename}` : null;
+    const tripId = String(req.params.id);
 
     try {
-      const tripId = String(req.params.id);
-      const pin = await Pin.create({
-        trip_id: tripId,
-        member_id: req.memberId!,
-        lat,
-        lng,
-        title: String(title).trim(),
-        note: note ? String(note).trim() : null,
-        category: category as ValidCategory,
-        photo_url,
-        rating,
-        budget,
-      });
+      let photo_url: string | null = null;
+      let storage_key: string | null = null;
+      let size_bytes: number | null = null;
 
-      if (photo_url) {
+      if (req.file) {
+        // Check quota (count only — fast, before processing)
+        await checkTripQuota(tripId);
+
+        // Process image
+        const processed = await processImage(req.file.buffer);
+
+        // Check quota with actual size
+        await checkTripQuota(tripId, processed.size);
+
+        // Upload to R2
+        const key = buildStorageKey(tripId, `${uuidv4()}.webp`);
+        photo_url = await uploadToR2(key, processed.buffer, processed.contentType);
+        storage_key = key;
+        size_bytes = processed.size;
+      }
+
+      let pin: Pin;
+      try {
+        pin = await Pin.create({
+          trip_id: tripId,
+          member_id: req.memberId!,
+          lat,
+          lng,
+          title: String(title).trim(),
+          note: note ? String(note).trim() : null,
+          category: category as ValidCategory,
+          photo_url,
+          rating,
+          budget,
+        });
+      } catch (dbErr) {
+        // Rollback R2 upload if DB write fails
+        if (storage_key) {
+          await deleteFromR2(storage_key).catch((e) =>
+            console.error('R2 rollback failed:', e)
+          );
+        }
+        throw dbErr;
+      }
+
+      if (photo_url && storage_key && size_bytes !== null) {
         await GalleryPhoto.create({
           trip_id: tripId,
           member_id: req.memberId!,
           pin_id: pin.id,
           url: photo_url,
+          storage_key,
+          size_bytes,
         });
       }
 
@@ -100,13 +135,17 @@ router.post(
       } catch {}
 
       res.status(201).json(pinWithMember);
-    } catch {
+    } catch (err) {
+      if (err instanceof QuotaError) {
+        const status = err.code === 'PHOTO_LIMIT' ? 403 : 507;
+        return res.status(status).json({ error: err.message, code: err.code });
+      }
       res.status(500).json({ error: 'Internal server error' });
     }
   }
 );
 
-// PATCH /trips/:id/pins/:pinId — edit own pin (no photo replacement)
+// PATCH /trips/:id/pins/:pinId
 router.patch('/:id/pins/:pinId', anyMember, async (req: MemberRequest, res: Response) => {
   try {
     const pin = await Pin.findOne({
@@ -121,7 +160,6 @@ router.patch('/:id/pins/:pinId', anyMember, async (req: MemberRequest, res: Resp
       ? String(req.body.category).trim().toLowerCase()
       : undefined;
 
-    // rating / budget: null means "clear", undefined means "don't update"
     let rating: number | null | undefined;
     if (req.body.rating === null || req.body.rating === '') {
       rating = null;
@@ -136,7 +174,6 @@ router.patch('/:id/pins/:pinId', anyMember, async (req: MemberRequest, res: Resp
       budget = parseFloat(req.body.budget);
     }
 
-    // Validation
     if (title !== undefined && !String(title).trim()) {
       return res.status(400).json({ error: 'title cannot be empty' });
     }
@@ -178,7 +215,7 @@ router.patch('/:id/pins/:pinId', anyMember, async (req: MemberRequest, res: Resp
   }
 });
 
-// DELETE /trips/:id/pins/:pinId — delete own pin + gallery entry + file
+// DELETE /trips/:id/pins/:pinId
 router.delete('/:id/pins/:pinId', anyMember, async (req: MemberRequest, res: Response) => {
   try {
     const pin = await Pin.findOne({
@@ -188,15 +225,17 @@ router.delete('/:id/pins/:pinId', anyMember, async (req: MemberRequest, res: Res
     if (!pin) return res.status(404).json({ error: 'Pin not found' });
     if (pin.member_id !== req.memberId) return res.status(403).json({ error: 'Not allowed' });
 
-    // Delete associated gallery entries
-    await GalleryPhoto.destroy({ where: { pin_id: pin.id } });
+    // Find gallery entry to get storage_key before destroying
+    const galleryPhoto = await GalleryPhoto.findOne({ where: { pin_id: pin.id } });
 
-    // Delete physical file if exists
-    if (pin.photo_url) {
-      const filename = pin.photo_url.replace('/uploads/', '');
-      const filepath = path.join(__dirname, '..', '..', 'uploads', filename);
-      fs.unlink(filepath, () => {}); // fire and forget — pin deleted regardless
+    // Delete from R2 if storage_key exists (null = legacy disk-stored photo)
+    if (galleryPhoto?.storage_key) {
+      await deleteFromR2(galleryPhoto.storage_key).catch((e) =>
+        console.error('R2 delete failed, continuing DB cleanup:', e)
+      );
     }
+
+    await GalleryPhoto.destroy({ where: { pin_id: pin.id } });
 
     const pinId = pin.id;
     const tripId = req.params.id;
