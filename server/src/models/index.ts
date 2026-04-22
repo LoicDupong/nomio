@@ -1,7 +1,6 @@
 import { Sequelize } from 'sequelize';
 
 const dbUrl = process.env.DATABASE_URL;
-
 if (!dbUrl) {
   throw new Error('DATABASE_URL is missing');
 }
@@ -12,24 +11,13 @@ try {
     protocol: parsed.protocol,
     host: parsed.hostname,
     port: parsed.port,
-    database: parsed.pathname,
+    database: parsed.pathname.slice(1), // Remove leading slash
     hasSSLParam: parsed.search.includes('ssl'),
   });
 } catch (e) {
   console.error('DB URL PARSE FAILED');
   throw e;
 }
-
-// export const sequelize = new Sequelize(dbUrl, {
-//   dialect: 'postgres',
-//   logging: false,
-//   pool: {
-//     max: 5,
-//     min: 0,
-//     acquire: 30000,
-//     idle: 10000,
-//   },
-// });
 
 export const sequelize = new Sequelize(process.env.DATABASE_URL!, {
   dialect: 'postgres',
