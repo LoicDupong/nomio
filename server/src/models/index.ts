@@ -6,14 +6,36 @@ if (!dbUrl) {
   throw new Error('DATABASE_URL is missing');
 }
 
+try {
+  const parsed = new URL(dbUrl);
+  console.log('DB CONFIG DEBUG', {
+    protocol: parsed.protocol,
+    host: parsed.hostname,
+    port: parsed.port,
+    database: parsed.pathname,
+    hasSSLParam: parsed.search.includes('ssl'),
+  });
+} catch (e) {
+  console.error('DB URL PARSE FAILED');
+  throw e;
+}
+
+// export const sequelize = new Sequelize(dbUrl, {
+//   dialect: 'postgres',
+//   logging: false,
+//   pool: {
+//     max: 5,
+//     min: 0,
+//     acquire: 30000,
+//     idle: 10000,
+//   },
+// });
+
 export const sequelize = new Sequelize(dbUrl, {
   dialect: 'postgres',
   logging: false,
-  pool: {
-    max: 5,
-    min: 0,
-    acquire: 30000,
-    idle: 10000,
+  dialectOptions: {
+    ssl: { require: true, rejectUnauthorized: false },
   },
 });
 
