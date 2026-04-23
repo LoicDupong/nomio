@@ -17,7 +17,7 @@ export default function HowItWorksSection() {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.25 }}
         >
           <h2 className={styles.title}>How it works</h2>
           <p className={styles.subtitle}>Three steps to your first shared memory.</p>
@@ -27,7 +27,7 @@ export default function HowItWorksSection() {
           className={styles.steps}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.25 }}
           variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
         >
           {steps.map((step) => (

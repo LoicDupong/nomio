@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import api from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
+import NomioLogo from '@/components/NomioLogo';
 import styles from './page.module.scss';
 
 interface MyTrip {
@@ -78,7 +79,7 @@ export default function LandingPage() {
     <div className={styles.page}>
       {/* Persistent nav — always visible */}
       <nav className={styles.nav}>
-        <img src="/logo/nomio-circles-lockup.svg" alt="Nomio" width={108} height={26} />
+        <NomioLogo size={32} variant="onLight" withWordmark />
         {user ? (
           <div className={styles.navRight}>
             <span className={styles.greeting}>Hi, {user.display_name}</span>

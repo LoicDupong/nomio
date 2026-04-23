@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import api from '@/lib/api';
 import { useAuthStore } from '@/store/authStore';
+import NomioLogo from '@/components/NomioLogo';
 import styles from './page.module.scss';
 
 export default function LoginPage() {
@@ -46,7 +47,7 @@ export default function LoginPage() {
     <div className={styles.page}>
       <div className={styles.card}>
         <div className={styles.brand}>
-          <img src="/logo/nomio-circles-lockup.svg" alt="Nomio" width={108} height={26} />
+          <NomioLogo size={32} variant="onLight" withWordmark />
         </div>
         <h1 className={styles.title}>Welcome back</h1>
         <form onSubmit={handleSubmit}>

@@ -20,7 +20,7 @@ export default function FeaturesSection() {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.25 }}
         >
           <h2 className={styles.title}>Everything your crew needs</h2>
           <p className={styles.subtitle}>Built for real trips, not hypothetical ones.</p>
@@ -30,7 +30,7 @@ export default function FeaturesSection() {
           className={styles.grid}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.25 }}
           variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
         >
           {features.map((feature) => (

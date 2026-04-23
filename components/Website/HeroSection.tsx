@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import NomioLogo from '@/components/NomioLogo';
 import { motion } from 'framer-motion';
 import styles from './HeroSection.module.scss';
 
@@ -18,6 +19,9 @@ export default function HeroSection() {
           animate="visible"
           variants={{ visible: { transition: { staggerChildren: 0.12 } } }}
         >
+          <motion.div className={styles.heroLogo} variants={fadeUp}>
+            <NomioLogo size={96} variant="onLight" withWordmark />
+          </motion.div>
           <motion.span className={styles.betaBadge} variants={fadeUp}>Beta</motion.span>
           <motion.h1 className={styles.headline} variants={fadeUp}>
             Pin memories,<br />share the <em>journey</em>.

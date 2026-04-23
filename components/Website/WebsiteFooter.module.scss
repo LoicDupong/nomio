@@ -29,7 +29,7 @@
 
 .tagline {
   font-size: 0.875rem;
-  color: rgba($color-cream, 0.5);
+  color: rgba($color-cream, 0.75);
   margin-top: 0.25rem;
 }
 
@@ -51,13 +51,13 @@
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.08em;
-  color: rgba($color-cream, 0.4);
+  color: $color-cream;
   margin-bottom: 0.25rem;
 }
 
 .footerLink {
   font-size: 0.875rem;
-  color: rgba($color-cream, 0.65);
+  color: rgba($color-cream, 0.8);
   transition: color $transition-fast;
 
   &:hover {
@@ -72,7 +72,7 @@
   align-items: center;
   justify-content: space-between;
   font-size: 0.8rem;
-  color: rgba($color-cream, 0.35);
+  color: rgba($color-cream, 0.55);
 
   @media (max-width: $tablet) {
     flex-direction: column;
@@ -82,10 +82,10 @@
 }
 
 .email {
-  color: rgba($color-cream, 0.35);
+  color: rgba($color-cream, 0.55);
   transition: color $transition-fast;
 
   &:hover {
-    color: rgba($color-cream, 0.65);
+    color: $color-cream;
   }
 }

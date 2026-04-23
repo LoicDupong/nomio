@@ -26,6 +26,12 @@
   gap: 1.25rem;
 }
 
+.heroLogo {
+  svg {
+    filter: drop-shadow(0 6px 20px rgba(47, 124, 122, 0.18));
+  }
+}
+
 .betaBadge {
   font-size: 0.65rem;
   font-weight: 700;

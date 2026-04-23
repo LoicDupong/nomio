@@ -1,7 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import Image from 'next/image';
+import NomioLogo from '@/components/NomioLogo';
 import styles from './WebsiteNav.module.scss';
 
 export default function WebsiteNav() {
@@ -18,7 +18,7 @@ export default function WebsiteNav() {
     <nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`}>
       <div className={styles.inner}>
         <Link href="/landing" className={styles.brand}>
-          <Image src="/logo/nomio-circles-lockup.svg" alt="Nomio" width={108} height={26} priority />
+          <NomioLogo size={32} variant="onLight" withWordmark />
         </Link>
 
         <div className={styles.center}>

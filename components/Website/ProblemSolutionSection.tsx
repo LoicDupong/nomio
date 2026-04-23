@@ -15,7 +15,7 @@ export default function ProblemSolutionSection() {
           className={styles.problem}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.25 }}
           variants={fadeUp(0)}
         >
           <span className={styles.label}>The problem</span>
@@ -30,7 +30,7 @@ export default function ProblemSolutionSection() {
           className={styles.solution}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.25 }}
           variants={fadeUp(0.1)}
         >
           <span className={styles.label}>The solution</span>

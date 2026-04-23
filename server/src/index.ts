@@ -2,7 +2,6 @@ import 'dotenv/config'; // must be first — loads .env before any other module 
 import express from 'express';
 import cors from 'cors';
 import http from 'http';
-import path from 'path';
 import { sequelize } from './models';
 import authRoutes from './routes/auth';
 import tripRoutes from './routes/trips';
@@ -18,7 +17,6 @@ const server = http.createServer(app);
 
 app.use(cors({ origin: process.env.CLIENT_URL || 'http://localhost:3000', credentials: true }));
 app.use(express.json());
-app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
 
 app.use('/auth', authRoutes);
 app.use('/trips', tripRoutes);

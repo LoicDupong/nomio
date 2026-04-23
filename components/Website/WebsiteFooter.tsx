@@ -1,13 +1,13 @@
 import Link from 'next/link';
-import Image from 'next/image';
+import NomioLogo from '@/components/NomioLogo';
 import styles from './WebsiteFooter.module.scss';
 
 export default function WebsiteFooter() {
   return (
-    <footer className={styles.footer}>
+    <footer className={styles.footer} id="site-footer">
       <div className={styles.inner}>
         <div className={styles.col}>
-          <Image src="/logo/nomio-circles-lockup.svg" alt="Nomio" width={96} height={23} />
+          <NomioLogo size={28} variant="default" withWordmark />
           <p className={styles.tagline}>Plan and relive your trips together.</p>
           <span className={styles.betaPill}>Beta</span>
         </div>
@@ -28,7 +28,7 @@ export default function WebsiteFooter() {
       </div>
 
       <div className={styles.bottom}>
-        <span>© 2026 Nomio · Built in Belgium · All rights reserved</span>
+        <span>© 2026 Nomio · Built by <a href="https://github.com/LoicDupong">Loïc Dupong</a> · All rights reserved</span>
         <a href="mailto:loic@dupong.be" className={styles.email}>loic@dupong.be</a>
       </div>
     </footer>

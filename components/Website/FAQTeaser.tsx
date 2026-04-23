@@ -18,7 +18,7 @@ export default function FAQTeaser() {
           initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.45, ease: 'easeOut' }}
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.25 }}
         >
           Common questions
         </motion.h2>
@@ -27,7 +27,7 @@ export default function FAQTeaser() {
           className={styles.list}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true }}
+          viewport={{ once: true, amount: 0.25 }}
           variants={{ visible: { transition: { staggerChildren: 0.1 } } }}
         >
           {faqs.map((faq) => (
