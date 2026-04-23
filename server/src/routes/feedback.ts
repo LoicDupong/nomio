@@ -88,7 +88,8 @@ router.post(
           console.error('R2 rollback failed:', e)
         );
       }
-      throw dbErr;
+      console.error('Feedback DB create failed:', dbErr);
+      return res.status(500).json({ error: 'Internal server error' });
     }
   }
 );
