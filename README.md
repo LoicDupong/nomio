@@ -10,7 +10,7 @@ Simple to use. Real-time by design. Built for the people you travel with.
 
 ## Live Demo
 
-> Coming soon — deployment in progress.
+[>Nomio](https://nomio-xi.vercel.app/)
 
 ---
 
