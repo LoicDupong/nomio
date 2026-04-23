@@ -160,6 +160,8 @@ export default function LandingPage() {
         </form>
       </div>
 
+      <Link href="/landing" className={styles.aboutLink}>About Nomio →</Link>
+
       {user && (
         <div className={styles.myTrips}>
           <h2 className={styles.myTripsTitle}>My trips</h2>

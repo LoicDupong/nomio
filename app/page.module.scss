@@ -403,3 +403,21 @@
     color: $color-text;
   }
 }
+
+/* ─── About link (mobile only) ──────────────────────────── */
+
+.aboutLink {
+  display: none;
+  font-size: 0.8rem;
+  color: $color-text-subtle;
+  text-align: center;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-teal;
+  }
+
+  @media (max-width: $tablet) {
+    display: block;
+  }
+}
