@@ -64,3 +64,23 @@ export interface TripStorage {
   bytes_used: number;
   bytes_limit: number;
 }
+
+export type FeedbackType = 'bug' | 'feature' | 'ui' | 'other';
+export type FeedbackStatus = 'new' | 'read' | 'archived';
+
+export interface Feedback {
+  id: string;
+  type: FeedbackType;
+  title: string;
+  message: string;
+  email: string | null;
+  screenshot_url: string | null;
+  screenshot_key: string | null;
+  status: FeedbackStatus;
+  user_id: string | null;
+  page: string | null;
+  trip_id: string | null;
+  app_version: string;
+  created_at: string;
+  user?: { display_name: string } | null;
+}
