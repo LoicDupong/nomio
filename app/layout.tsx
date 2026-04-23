@@ -1,5 +1,7 @@
 import type { Metadata } from 'next';
 import { Inter, Fraunces } from 'next/font/google';
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import '@/styles/globals.scss';
 import FeedbackWidget from '@/components/Feedback/FeedbackWidget';
 
@@ -32,6 +34,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <FeedbackWidget />
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
