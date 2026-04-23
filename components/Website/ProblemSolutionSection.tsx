@@ -4,7 +4,7 @@ import styles from './ProblemSolutionSection.module.scss';
 
 const fadeUp = (delay = 0) => ({
   hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut', delay } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' as const, delay } },
 });
 
 export default function ProblemSolutionSection() {

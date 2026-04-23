@@ -5,8 +5,8 @@ import styles from './HeroSection.module.scss';
 
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
-};
+  visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' as const } },
+} as const;
 
 export default function HeroSection() {
   return (
