@@ -293,14 +293,6 @@ export default function MapView({ tripId }: { tripId: string }) {
           onClick={handleLocate}
           title="My location"
         >
-          ◎
-        </button>
-        <button
-          type="button"
-          className={styles.controlBtn}
-          onClick={handleResetView}
-          title="Reset view"
-        >
           ⊙
         </button>
       </div>
