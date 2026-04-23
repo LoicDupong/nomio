@@ -9,6 +9,7 @@ import tripRoutes from './routes/trips';
 import joinRoutes from './routes/join';
 import pinRoutes from './routes/pins';
 import galleryRoutes from './routes/gallery';
+import feedbackRoutes from './routes/feedback';
 import { initSocket } from './socket';
 
 const app = express();
@@ -23,6 +24,7 @@ app.use('/trips', tripRoutes);
 app.use('/join', joinRoutes);
 app.use('/trips', pinRoutes);
 app.use('/trips', galleryRoutes);
+app.use('/feedback', feedbackRoutes);
 
 app.get('/health', (_req, res) => res.json({ status: 'ok' }));
 
