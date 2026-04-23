@@ -10,6 +10,7 @@ import pinRoutes from './routes/pins';
 import galleryRoutes from './routes/gallery';
 import feedbackRoutes from './routes/feedback';
 import adminRoutes from './routes/admin';
+import { ensureSchema } from './lib/ensureSchema';
 import { initSocket } from './socket';
 
 const app = express();
@@ -38,6 +39,10 @@ sequelize
   .authenticate()
   .then(() => {
     console.log('DB authenticate OK');
+    return ensureSchema(sequelize);
+  })
+  .then(() => {
+    console.log('DB schema check OK');
     return sequelize.sync();
   })
   .then(() => {
