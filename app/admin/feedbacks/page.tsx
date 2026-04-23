@@ -60,8 +60,8 @@ export default function AdminFeedbacksPage() {
       if (search) params.search = search;
       const res = await adminApi.get('/admin/feedbacks', { params });
       setFeedbacks(res.data);
-    } catch {
-      // 401 handled by interceptor (redirect to login)
+    } catch (err) {
+      console.error('Failed to fetch feedbacks:', err);
     } finally {
       setLoading(false);
     }
@@ -87,7 +87,9 @@ export default function AdminFeedbacksPage() {
           prev.map((f) => (f.id === fb.id ? { ...f, status: 'read' } : f))
         );
         setSelected((prev) => (prev?.id === fb.id ? { ...prev, status: 'read' } : prev));
-      } catch {}
+      } catch (err) {
+        console.error('Failed to mark feedback as read:', err);
+      }
     }
   }
 
@@ -99,7 +101,9 @@ export default function AdminFeedbacksPage() {
         prev.map((f) => (f.id === selected.id ? { ...f, status } : f))
       );
       setSelected((prev) => (prev ? { ...prev, status } : prev));
-    } catch {}
+    } catch (err) {
+      console.error('Failed to update feedback status:', err);
+    }
   }
 
   async function handleDelete() {
@@ -109,7 +113,10 @@ export default function AdminFeedbacksPage() {
       setFeedbacks((prev) => prev.filter((f) => f.id !== selected.id));
       setSelected(null);
       setDeleteConfirm(false);
-    } catch {}
+    } catch (err) {
+      console.error('Failed to delete feedback:', err);
+      setDeleteConfirm(false);
+    }
   }
 
   function handleLogout() {
