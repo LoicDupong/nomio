@@ -2,10 +2,10 @@
   <title>Nomio app icon</title>
   <defs><clipPath id="sq"><rect width="180" height="180" rx="40"/></clipPath></defs>
   <g clip-path="url(#sq)">
-    <rect width="180" height="180" fill="#6366F1"/>
-    <circle cx="65" cy="75" r="42" fill="#F8FAFC" opacity="0.55"/>
-    <circle cx="115" cy="75" r="42" fill="#F8FAFC" opacity="0.8"/>
-    <circle cx="90" cy="118" r="42" fill="#F8FAFC"/>
-    <circle cx="90" cy="118" r="8" fill="#22C55E"/>
+    <rect width="180" height="180" fill="#2F7C7A"/>
+    <circle cx="65"  cy="75"  r="42" fill="#F1E4CF"/>
+    <circle cx="115" cy="75"  r="42" fill="#A7BEC1"/>
+    <circle cx="90"  cy="118" r="42" fill="#FFD248"/>
+    <circle cx="90"  cy="118" r="8"  fill="#E85D4E"/>
   </g>
 </svg>

@@ -4,7 +4,11 @@
       "Bash(npm init *)",
       "Bash(npx tsc *)",
       "Bash(npm install *)",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "Bash(node -e \"require\\('@aws-sdk/client-s3'\\); require\\('sharp'\\); console.log\\('OK'\\)\")",
+      "Bash(git add *)",
+      "Bash(git commit *)",
+      "Bash(xargs grep *)"
     ]
   }
 }

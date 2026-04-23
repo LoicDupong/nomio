@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="540" height="130" viewBox="0 0 540 130" fill="none">
   <title>Nomio lockup</title>
   <g transform="translate(0, 5) scale(0.45)">
-    <circle cx="85" cy="95" r="60" fill="#A5B4FC"/>
-    <circle cx="155" cy="95" r="60" fill="#818CF8"/>
-    <circle cx="120" cy="155" r="60" fill="#6366F1"/>
-    <circle cx="120" cy="155" r="11" fill="#22C55E"/>
+    <circle cx="85"  cy="95"  r="60" fill="#F1E4CF"/>
+    <circle cx="155" cy="95"  r="60" fill="#A7BEC1"/>
+    <circle cx="120" cy="155" r="60" fill="#FFD248"/>
+    <circle cx="120" cy="155" r="11" fill="#E85D4E"/>
   </g>
   <text x="135" y="85"
         font-family="-apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Inter', sans-serif"
-        font-weight="800" font-size="72" letter-spacing="-3.5" fill="#0F172A">Nomio</text>
+        font-weight="800" font-size="72" letter-spacing="-3.5" fill="#1B3B3A">Nomio</text>
 </svg>
