@@ -38,7 +38,7 @@ sequelize
   .authenticate()
   .then(() => {
     console.log('DB authenticate OK');
-    return sequelize.sync();
+    return sequelize.sync({ alter: true });
   })
   .then(() => {
     console.log('DB sync OK');
