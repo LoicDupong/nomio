@@ -1,0 +1,71 @@
+@use '@/styles/variables' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-sand;
+  padding: 7rem 2rem 5rem;
+}
+
+.prose {
+  max-width: 680px;
+  margin: 0 auto;
+
+  h1 {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: $color-ink;
+    letter-spacing: -0.035em;
+    margin-bottom: 1rem;
+  }
+
+  h2 {
+    font-size: 1.125rem;
+    font-weight: 700;
+    color: $color-ink;
+    margin-top: 2.5rem;
+    margin-bottom: 0.625rem;
+  }
+
+  p {
+    font-size: 0.9375rem;
+    color: $color-text-muted;
+    line-height: 1.75;
+    margin-bottom: 0.75rem;
+  }
+
+  ul {
+    padding-left: 1.25rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    margin-bottom: 0.75rem;
+
+    li {
+      font-size: 0.9375rem;
+      color: $color-text-muted;
+      line-height: 1.65;
+    }
+  }
+
+  a {
+    color: $color-teal;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  strong {
+    color: $color-ink;
+    font-weight: 600;
+  }
+}
+
+.lead {
+  font-size: 0.875rem !important;
+  color: $color-text-subtle !important;
+  border-left: 3px solid $color-ochre;
+  padding-left: 1rem;
+  margin-bottom: 2rem !important;
+}
