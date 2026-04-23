@@ -1,0 +1,103 @@
+@use '@/styles/variables' as *;
+
+.page {
+  min-height: 100vh;
+  background: $color-sand;
+  padding: 7rem 2rem 5rem;
+}
+
+.inner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.pageTitle {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: $color-ink;
+  letter-spacing: -0.035em;
+}
+
+.pageSubtitle {
+  font-size: 1rem;
+  color: $color-text-muted;
+  margin-top: -1.5rem;
+
+  a {
+    color: $color-teal;
+    font-weight: 600;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}
+
+.category {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.categoryTitle {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: $color-text-muted;
+  margin-bottom: 0.75rem;
+}
+
+.list {
+  border-top: 1px solid $color-border;
+}
+
+.item {
+  border-bottom: 1px solid $color-border;
+}
+
+.question {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  padding: 1.125rem 0;
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: $color-ink;
+  text-align: left;
+  min-height: unset;
+  gap: 1rem;
+  transition: color $transition-fast;
+
+  &:hover {
+    color: $color-teal;
+  }
+}
+
+.chevron {
+  font-size: 1.25rem;
+  color: $color-text-subtle;
+  transition: transform $transition-fast;
+  flex-shrink: 0;
+  transform: rotate(90deg);
+  display: inline-block;
+}
+
+.chevronOpen {
+  transform: rotate(-90deg);
+}
+
+.answer {
+  overflow: hidden;
+}
+
+.answerText {
+  font-size: 0.9375rem;
+  color: $color-text-muted;
+  line-height: 1.7;
+  padding-bottom: 1.125rem;
+}
