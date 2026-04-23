@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import styles from './WebsiteNav.module.scss';
 
 export default function WebsiteNav() {
@@ -17,7 +18,7 @@ export default function WebsiteNav() {
     <nav className={`${styles.nav} ${scrolled ? styles.navScrolled : ''}`}>
       <div className={styles.inner}>
         <Link href="/landing" className={styles.brand}>
-          <img src="/logo/nomio-circles-lockup.svg" alt="Nomio" width={108} height={26} />
+          <Image src="/logo/nomio-circles-lockup.svg" alt="Nomio" width={108} height={26} priority />
         </Link>
 
         <div className={styles.center}>
@@ -36,6 +37,8 @@ export default function WebsiteNav() {
           className={styles.hamburger}
           onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Toggle menu"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-drawer"
         >
           <span />
           <span />
@@ -44,7 +47,7 @@ export default function WebsiteNav() {
       </div>
 
       {menuOpen && (
-        <div className={styles.drawer}>
+        <div className={styles.drawer} id="mobile-drawer">
           <a href="/landing#how-it-works" className={styles.drawerLink} onClick={() => setMenuOpen(false)}>How it works</a>
           <Link href="/faq" className={styles.drawerLink} onClick={() => setMenuOpen(false)}>FAQ</Link>
           <Link href="/contact" className={styles.drawerLink} onClick={() => setMenuOpen(false)}>Contact</Link>
