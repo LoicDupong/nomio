@@ -29,6 +29,7 @@ import { Trip } from './Trip';
 import { TripMember } from './TripMember';
 import { Pin } from './Pin';
 import { GalleryPhoto } from './GalleryPhoto';
+import { Feedback } from './Feedback';
 
 // Associations
 Trip.belongsTo(User, { foreignKey: 'owner_id', as: 'owner' });
@@ -53,4 +54,7 @@ GalleryPhoto.belongsTo(TripMember, { foreignKey: 'member_id', as: 'member' });
 GalleryPhoto.belongsTo(Pin, { foreignKey: 'pin_id', as: 'pin' });
 Pin.hasMany(GalleryPhoto, { foreignKey: 'pin_id', as: 'gallery_photos' });
 
-export { User, Trip, TripMember, Pin, GalleryPhoto };
+Feedback.belongsTo(User, { foreignKey: 'user_id', as: 'user' });
+User.hasMany(Feedback, { foreignKey: 'user_id', as: 'feedbacks' });
+
+export { User, Trip, TripMember, Pin, GalleryPhoto, Feedback };
