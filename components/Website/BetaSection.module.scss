@@ -1,0 +1,56 @@
+@use '@/styles/variables' as *;
+
+.section {
+  background: $color-ochre-soft;
+  padding: 5rem 2rem;
+}
+
+.inner {
+  max-width: 680px;
+  margin: 0 auto;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.betaPill {
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 0.25rem 0.65rem;
+  border-radius: $radius-full;
+  background: $color-ochre;
+  color: $color-ink;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: $color-ink;
+  letter-spacing: -0.03em;
+  line-height: 1.2;
+}
+
+.body {
+  font-size: 1rem;
+  color: $color-text-muted;
+  line-height: 1.7;
+}
+
+.cta {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: $color-cream;
+  background: $color-teal;
+  padding: 0.75rem 1.5rem;
+  border-radius: $radius-md;
+  transition: opacity $transition-fast, transform $transition-fast;
+
+  &:hover {
+    opacity: 0.9;
+    transform: translateY(-1px);
+  }
+}
