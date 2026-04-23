@@ -1,0 +1,75 @@
+@use '@/styles/variables' as *;
+
+.section {
+  background: $color-cream;
+  padding: 6rem 2rem;
+}
+
+.inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.header {
+  text-align: center;
+}
+
+.title {
+  font-size: 2.25rem;
+  font-weight: 800;
+  color: $color-ink;
+  letter-spacing: -0.03em;
+  margin-bottom: 0.5rem;
+}
+
+.subtitle {
+  font-size: 1rem;
+  color: $color-text-muted;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+
+  @media (max-width: $tablet) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.card {
+  background: $color-sand;
+  border: 1px solid $color-border;
+  border-radius: $radius-xl;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.icon {
+  font-size: 1.25rem;
+  color: $color-teal;
+  width: 2.5rem;
+  height: 2.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba($color-teal, 0.08);
+  border-radius: $radius-md;
+}
+
+.cardTitle {
+  font-size: 1.0625rem;
+  font-weight: 700;
+  color: $color-ink;
+}
+
+.cardDesc {
+  font-size: 0.9375rem;
+  color: $color-text-muted;
+  line-height: 1.65;
+}
