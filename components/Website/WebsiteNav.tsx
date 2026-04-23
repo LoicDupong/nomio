@@ -46,16 +46,18 @@ export default function WebsiteNav() {
         </button>
       </div>
 
-      {menuOpen && (
-        <div className={styles.drawer} id="mobile-drawer">
-          <a href="/landing#how-it-works" className={styles.drawerLink} onClick={() => setMenuOpen(false)}>How it works</a>
-          <Link href="/faq" className={styles.drawerLink} onClick={() => setMenuOpen(false)}>FAQ</Link>
-          <Link href="/contact" className={styles.drawerLink} onClick={() => setMenuOpen(false)}>Contact</Link>
-          <Link href="/privacy" className={styles.drawerLink} onClick={() => setMenuOpen(false)}>Privacy</Link>
-          <Link href="/terms" className={styles.drawerLink} onClick={() => setMenuOpen(false)}>Terms</Link>
-          <Link href="/" className={styles.drawerCta}>Open Nomio →</Link>
-        </div>
-      )}
+      <div
+        className={`${styles.drawer} ${menuOpen ? styles.drawerOpen : ''}`}
+        id="mobile-drawer"
+        aria-hidden={!menuOpen}
+      >
+        <a href="/landing#how-it-works" className={styles.drawerLink} onClick={() => setMenuOpen(false)}>How it works</a>
+        <Link href="/faq" className={styles.drawerLink} onClick={() => setMenuOpen(false)}>FAQ</Link>
+        <Link href="/contact" className={styles.drawerLink} onClick={() => setMenuOpen(false)}>Contact</Link>
+        <Link href="/privacy" className={styles.drawerLink} onClick={() => setMenuOpen(false)}>Privacy</Link>
+        <Link href="/terms" className={styles.drawerLink} onClick={() => setMenuOpen(false)}>Terms</Link>
+        <Link href="/" className={styles.drawerCta}>Open Nomio →</Link>
+      </div>
     </nav>
   );
 }

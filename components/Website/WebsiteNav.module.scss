@@ -128,12 +128,16 @@
 }
 
 .drawer {
-  display: flex;
+  display: none;
   flex-direction: column;
   padding: 0.75rem 1.5rem 1.5rem;
   border-top: 1px solid $color-border;
   background: $color-cream;
   gap: 0.1rem;
+}
+
+.drawerOpen {
+  display: flex;
 }
 
 .drawerLink {
