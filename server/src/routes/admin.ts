@@ -8,6 +8,9 @@ import { deleteFromR2 } from '../lib/r2';
 
 const router = Router();
 
+const VALID_STATUSES = ['new', 'read', 'archived'] as const;
+const VALID_TYPES = ['bug', 'feature', 'ui', 'other'] as const;
+
 // POST /admin/login
 router.post('/login', async (req, res: Response) => {
   const { email, password } = req.body;
@@ -31,7 +34,8 @@ router.post('/login', async (req, res: Response) => {
     );
 
     res.json({ token });
-  } catch {
+  } catch (err) {
+    console.error('Admin login error:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -42,8 +46,8 @@ router.get('/feedbacks', requireAdmin, async (req: AdminRequest, res: Response) 
     const { status, type, search } = req.query as Record<string, string>;
 
     const conditions: Record<string, unknown> = {};
-    if (status && ['new', 'read', 'archived'].includes(status)) conditions.status = status;
-    if (type && ['bug', 'feature', 'ui', 'other'].includes(type)) conditions.type = type;
+    if (status && VALID_STATUSES.includes(status as typeof VALID_STATUSES[number])) conditions.status = status;
+    if (type && VALID_TYPES.includes(type as typeof VALID_TYPES[number])) conditions.type = type;
 
     const where = search?.trim()
       ? {
@@ -62,7 +66,8 @@ router.get('/feedbacks', requireAdmin, async (req: AdminRequest, res: Response) 
     });
 
     res.json(feedbacks);
-  } catch {
+  } catch (err) {
+    console.error('Admin GET feedbacks error:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -70,7 +75,7 @@ router.get('/feedbacks', requireAdmin, async (req: AdminRequest, res: Response) 
 // PATCH /admin/feedbacks/:id
 router.patch('/feedbacks/:id', requireAdmin, async (req: AdminRequest, res: Response) => {
   const { status } = req.body;
-  if (!status || !['new', 'read', 'archived'].includes(status)) {
+  if (!status || !VALID_STATUSES.includes(status as typeof VALID_STATUSES[number])) {
     return res.status(400).json({ error: 'Invalid status' });
   }
 
@@ -80,7 +85,8 @@ router.patch('/feedbacks/:id', requireAdmin, async (req: AdminRequest, res: Resp
 
     await feedback.update({ status });
     res.json(feedback);
-  } catch {
+  } catch (err) {
+    console.error('Admin PATCH feedback error:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
@@ -99,7 +105,8 @@ router.delete('/feedbacks/:id', requireAdmin, async (req: AdminRequest, res: Res
 
     await feedback.destroy();
     res.json({ id: req.params.id });
-  } catch {
+  } catch (err) {
+    console.error('Admin DELETE feedback error:', err);
     res.status(500).json({ error: 'Internal server error' });
   }
 });
