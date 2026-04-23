@@ -1,0 +1,63 @@
+@use '@/styles/variables' as *;
+
+.section {
+  background: $color-sand;
+  padding: 5rem 2rem;
+}
+
+.inner {
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: $color-ink;
+  letter-spacing: -0.03em;
+  text-align: center;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid $color-border;
+
+  &:first-child {
+    border-top: 1px solid $color-border;
+  }
+}
+
+.question {
+  font-size: 0.9375rem;
+  font-weight: 700;
+  color: $color-ink;
+}
+
+.answer {
+  font-size: 0.9375rem;
+  color: $color-text-muted;
+  line-height: 1.6;
+}
+
+.allFaqs {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  color: $color-teal;
+  text-align: center;
+  transition: opacity $transition-fast;
+
+  &:hover {
+    opacity: 0.75;
+  }
+}
