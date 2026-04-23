@@ -1,5 +1,7 @@
 import styles from './page.module.scss';
 
+export const metadata = { title: 'Terms of Use — Nomio' };
+
 export default function TermsPage() {
   return (
     <div className={styles.page}>

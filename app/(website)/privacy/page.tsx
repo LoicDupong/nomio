@@ -1,5 +1,7 @@
 import styles from './page.module.scss';
 
+export const metadata = { title: 'Privacy Policy — Nomio' };
+
 export default function PrivacyPage() {
   return (
     <div className={styles.page}>

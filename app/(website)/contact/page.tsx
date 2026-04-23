@@ -1,5 +1,7 @@
 import styles from './page.module.scss';
 
+export const metadata = { title: 'Contact — Nomio' };
+
 export default function ContactPage() {
   return (
     <div className={styles.page}>

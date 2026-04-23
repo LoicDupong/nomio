@@ -3,6 +3,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import styles from './page.module.scss';
 
+export const metadata = { title: 'FAQ — Nomio' };
+
 const categories = [
   {
     title: 'Getting Started',
@@ -38,7 +40,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 
   return (
     <div className={styles.item}>
-      <button className={styles.question} onClick={() => setOpen(!open)}>
+      <button className={styles.question} onClick={() => setOpen(!open)} aria-expanded={open}>
         <span>{q}</span>
         <span className={`${styles.chevron} ${open ? styles.chevronOpen : ''}`}>›</span>
       </button>
