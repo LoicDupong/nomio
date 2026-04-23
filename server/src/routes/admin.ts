@@ -11,6 +11,10 @@ const router = Router();
 const VALID_STATUSES = ['new', 'read', 'archived'] as const;
 const VALID_TYPES = ['bug', 'feature', 'ui', 'other'] as const;
 
+function getSingleParam(value: string | string[] | undefined) {
+  return Array.isArray(value) ? value[0] : value;
+}
+
 // POST /admin/login
 router.post('/login', async (req, res: Response) => {
   const { email, password } = req.body;
@@ -79,8 +83,13 @@ router.patch('/feedbacks/:id', requireAdmin, async (req: AdminRequest, res: Resp
     return res.status(400).json({ error: 'Invalid status' });
   }
 
+  const feedbackId = getSingleParam(req.params.id);
+  if (!feedbackId) {
+    return res.status(400).json({ error: 'Feedback id is required' });
+  }
+
   try {
-    const feedback = await Feedback.findByPk(req.params.id);
+    const feedback = await Feedback.findByPk(feedbackId);
     if (!feedback) return res.status(404).json({ error: 'Feedback not found' });
 
     await feedback.update({ status });
@@ -93,8 +102,13 @@ router.patch('/feedbacks/:id', requireAdmin, async (req: AdminRequest, res: Resp
 
 // DELETE /admin/feedbacks/:id
 router.delete('/feedbacks/:id', requireAdmin, async (req: AdminRequest, res: Response) => {
+  const feedbackId = getSingleParam(req.params.id);
+  if (!feedbackId) {
+    return res.status(400).json({ error: 'Feedback id is required' });
+  }
+
   try {
-    const feedback = await Feedback.findByPk(req.params.id);
+    const feedback = await Feedback.findByPk(feedbackId);
     if (!feedback) return res.status(404).json({ error: 'Feedback not found' });
 
     if (feedback.screenshot_key) {
@@ -104,7 +118,7 @@ router.delete('/feedbacks/:id', requireAdmin, async (req: AdminRequest, res: Res
     }
 
     await feedback.destroy();
-    res.json({ id: req.params.id });
+    res.json({ id: feedbackId });
   } catch (err) {
     console.error('Admin DELETE feedback error:', err);
     res.status(500).json({ error: 'Internal server error' });
