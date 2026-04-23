@@ -25,15 +25,6 @@
   gap: 8px;
 }
 
-.badge {
-  background: #2563eb;
-  color: #fff;
-  font-size: 11px;
-  font-weight: 700;
-  border-radius: 10px;
-  padding: 2px 7px;
-}
-
 .filterGroup {
   display: flex;
   gap: 6px;
@@ -46,6 +37,9 @@
   background: #fff;
   font-size: 13px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
 
   &:hover {
     border-color: #888;
@@ -55,7 +49,22 @@
     border-color: #1a1a1a;
     background: #1a1a1a;
     color: #fff;
+
+    .tabCount {
+      background: rgba(255, 255, 255, 0.2);
+      color: #fff;
+    }
   }
+}
+
+.tabCount {
+  font-size: 11px;
+  font-weight: 700;
+  background: #f0f0f0;
+  color: #555;
+  border-radius: 10px;
+  padding: 1px 6px;
+  line-height: 1.5;
 }
 
 .select {
@@ -116,6 +125,7 @@
 .listItem {
   padding: 14px 18px;
   border-bottom: 1px solid #f0f0f0;
+  border-left: 3px solid transparent;
   cursor: pointer;
   transition: background 0.1s;
 
@@ -127,8 +137,38 @@
     background: #f0f4ff;
   }
 
+  // Unread: full weight, blue left border
   &--new {
-    border-left: 3px solid #2563eb;
+    border-left-color: #2563eb;
+
+    .itemTitle {
+      font-weight: 700;
+    }
+
+    .itemMeta {
+      color: #666;
+    }
+  }
+
+  // Read: calmer — muted text, lighter weight
+  &--read {
+    .itemTitle {
+      font-weight: 500;
+      color: #555;
+    }
+
+    .itemMeta {
+      color: #aaa;
+    }
+  }
+
+  // Archived: very muted
+  &--archived {
+    opacity: 0.55;
+
+    .itemTitle {
+      font-weight: 400;
+    }
   }
 }
 
@@ -147,6 +187,7 @@
   background: #f0f0f0;
   color: #555;
   text-transform: uppercase;
+  flex-shrink: 0;
 
   &--bug { background: #fee2e2; color: #b91c1c; }
   &--feature { background: #dcfce7; color: #15803d; }
@@ -166,6 +207,16 @@
 .itemMeta {
   font-size: 12px;
   color: #888;
+}
+
+// Unread dot shown on new items
+.unreadDot {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #2563eb;
+  flex-shrink: 0;
 }
 
 .detail {

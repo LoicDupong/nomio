@@ -98,7 +98,7 @@ export default function LandingPage() {
       {/* Hero — only for unauthenticated users */}
       {!user && (
         <div className={styles.hero}>
-          <h1>Pin memories,<br />share the journey.</h1>
+          <h1>Pin memories,<br />share the <em>journey</em>.</h1>
           <p>A collaborative map journal for your travel crew.</p>
         </div>
       )}

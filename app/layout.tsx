@@ -1,13 +1,21 @@
 import type { Metadata } from 'next';
-import { Figtree } from 'next/font/google';
+import { Inter, Fraunces } from 'next/font/google';
 import '@/styles/globals.scss';
 import FeedbackWidget from '@/components/Feedback/FeedbackWidget';
 
-const figtree = Figtree({
+const inter = Inter({
   subsets: ['latin'],
   weight: ['400', '500', '600', '700', '800'],
   display: 'swap',
-  variable: '--font-figtree',
+  variable: '--font-inter',
+});
+
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  style: ['italic'],
+  display: 'optional',
+  variable: '--font-fraunces',
 });
 
 export const metadata: Metadata = {
@@ -20,7 +28,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" className={figtree.variable}>
+    <html lang="en" className={`${inter.variable} ${fraunces.variable}`}>
       <body>
         {children}
         <FeedbackWidget />

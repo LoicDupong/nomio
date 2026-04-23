@@ -1,5 +1,5 @@
 'use client';
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useMemo } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAdminStore } from '@/store/adminStore';
 import adminApi from '@/lib/adminApi';
@@ -52,20 +52,17 @@ export default function AdminFeedbacksPage() {
     }
   }, [token, router]);
 
+  // Fetch all feedbacks — filtering is done client-side for live reactivity
   const fetchFeedbacks = useCallback(async () => {
     try {
-      const params: Record<string, string> = {};
-      if (statusFilter) params.status = statusFilter;
-      if (typeFilter) params.type = typeFilter;
-      if (search) params.search = search;
-      const res = await adminApi.get('/admin/feedbacks', { params });
+      const res = await adminApi.get('/admin/feedbacks');
       setFeedbacks(res.data);
     } catch (err) {
       console.error('Failed to fetch feedbacks:', err);
     } finally {
       setLoading(false);
     }
-  }, [statusFilter, typeFilter, search]);
+  }, []);
 
   useEffect(() => {
     fetchFeedbacks();
@@ -77,6 +74,50 @@ export default function AdminFeedbacksPage() {
     return () => clearTimeout(t);
   }, [searchInput]);
 
+  // Per-status counts derived from full list (always up to date)
+  const counts = useMemo(
+    () => ({
+      new: feedbacks.filter((f) => f.status === 'new').length,
+      read: feedbacks.filter((f) => f.status === 'read').length,
+      archived: feedbacks.filter((f) => f.status === 'archived').length,
+    }),
+    [feedbacks]
+  );
+
+  // Client-side derived list
+  const visibleFeedbacks = useMemo(() => {
+    return feedbacks.filter((f) => {
+      // Hide archived unless explicitly on the archived tab
+      if (f.status === 'archived' && statusFilter !== 'archived') return false;
+      if (statusFilter && f.status !== statusFilter) return false;
+      if (typeFilter && f.type !== typeFilter) return false;
+      if (search) {
+        const q = search.toLowerCase();
+        const haystack = `${f.title} ${f.message} ${f.user?.display_name ?? ''} ${f.email ?? ''}`.toLowerCase();
+        if (!haystack.includes(q)) return false;
+      }
+      return true;
+    });
+  }, [feedbacks, statusFilter, typeFilter, search]);
+
+  // Auto-deselect if selected item is no longer visible
+  useEffect(() => {
+    if (selected && !visibleFeedbacks.find((f) => f.id === selected.id)) {
+      setSelected(null);
+      setDeleteConfirm(false);
+    }
+  }, [visibleFeedbacks, selected]);
+
+  // Keep selected in sync with feedbacks array mutations
+  useEffect(() => {
+    if (selected) {
+      const updated = feedbacks.find((f) => f.id === selected.id);
+      if (updated && updated.status !== selected.status) {
+        setSelected(updated);
+      }
+    }
+  }, [feedbacks]);
+
   async function handleSelect(fb: Feedback) {
     setSelected(fb);
     setDeleteConfirm(false);
@@ -86,7 +127,6 @@ export default function AdminFeedbacksPage() {
         setFeedbacks((prev) =>
           prev.map((f) => (f.id === fb.id ? { ...f, status: 'read' } : f))
         );
-        setSelected((prev) => (prev?.id === fb.id ? { ...prev, status: 'read' } : prev));
       } catch (err) {
         console.error('Failed to mark feedback as read:', err);
       }
@@ -100,7 +140,6 @@ export default function AdminFeedbacksPage() {
       setFeedbacks((prev) =>
         prev.map((f) => (f.id === selected.id ? { ...f, status } : f))
       );
-      setSelected((prev) => (prev ? { ...prev, status } : prev));
     } catch (err) {
       console.error('Failed to update feedback status:', err);
     }
@@ -124,27 +163,33 @@ export default function AdminFeedbacksPage() {
     router.replace('/admin/login');
   }
 
-  const newCount = feedbacks.filter((f) => f.status === 'new').length;
+  function tabCount(value: '' | FeedbackStatus): number | null {
+    if (value === '') return null;
+    return counts[value];
+  }
 
   return (
     <div className={styles.page}>
       <div className={styles.topBar}>
-        <h1 className={styles.heading}>
-          Feedbacks
-          {newCount > 0 && <span className={styles.badge}>{newCount}</span>}
-        </h1>
+        <h1 className={styles.heading}>Feedbacks</h1>
 
         <div className={styles.filterGroup}>
-          {STATUS_TABS.map((tab) => (
-            <button
-              key={tab.value}
-              type="button"
-              className={`${styles.filterBtn} ${statusFilter === tab.value ? styles['filterBtn--active'] : ''}`}
-              onClick={() => setStatusFilter(tab.value)}
-            >
-              {tab.label}
-            </button>
-          ))}
+          {STATUS_TABS.map((tab) => {
+            const count = tabCount(tab.value);
+            return (
+              <button
+                key={tab.value}
+                type="button"
+                className={`${styles.filterBtn} ${statusFilter === tab.value ? styles['filterBtn--active'] : ''}`}
+                onClick={() => setStatusFilter(tab.value)}
+              >
+                {tab.label}
+                {count !== null && (
+                  <span className={styles.tabCount}>{count}</span>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         <select
@@ -176,17 +221,21 @@ export default function AdminFeedbacksPage() {
         {/* List */}
         <div className={styles.list}>
           {loading && <p className={styles.listEmpty}>Loading...</p>}
-          {!loading && feedbacks.length === 0 && (
+          {!loading && visibleFeedbacks.length === 0 && (
             <p className={styles.listEmpty}>No feedbacks found.</p>
           )}
-          {feedbacks.map((fb) => (
+          {visibleFeedbacks.map((fb) => (
             <div
               key={fb.id}
               className={[
                 styles.listItem,
                 selected?.id === fb.id ? styles['listItem--selected'] : '',
                 fb.status === 'new' ? styles['listItem--new'] : '',
-              ].join(' ')}
+                fb.status === 'read' ? styles['listItem--read'] : '',
+                fb.status === 'archived' ? styles['listItem--archived'] : '',
+              ]
+                .filter(Boolean)
+                .join(' ')}
               onClick={() => handleSelect(fb)}
             >
               <div className={styles.itemHeader}>
@@ -194,6 +243,7 @@ export default function AdminFeedbacksPage() {
                   {TYPE_LABELS[fb.type]}
                 </span>
                 <span className={styles.itemTitle}>{fb.title}</span>
+                {fb.status === 'new' && <span className={styles.unreadDot} aria-label="Unread" />}
               </div>
               <div className={styles.itemMeta}>
                 {fb.user?.display_name ?? 'Guest'} · {formatDate(fb.created_at)}
@@ -276,6 +326,15 @@ export default function AdminFeedbacksPage() {
                     onClick={() => handleStatusChange('archived')}
                   >
                     Archive
+                  </button>
+                )}
+                {selected.status === 'archived' && (
+                  <button
+                    className={styles.actionBtn}
+                    type="button"
+                    onClick={() => handleStatusChange('read')}
+                  >
+                    Unarchive
                   </button>
                 )}
                 {!deleteConfirm ? (

@@ -1,27 +1,37 @@
-// ─── Nomio Design Tokens ──────────────────────────────────
+// ─── Nomio Design Tokens — Mediterranean Summer ───────────
 
-// Brand — Indigo
-$color-primary:      #4f46e5;   // indigo-600
-$color-primary-dark: #4338ca;   // indigo-700
+// ─── Named palette ────────────────────────────────────────
 
-// Semantic
-$color-secondary:    #10b981;
-$color-danger:       #ef4444;
-$color-warning:      #f59e0b;
+$color-teal:        #2F7C7A;   // Deep Teal — signature, primary interactions
+$color-teal-soft:   #3D9593;   // Teal hover / secondary teal
+$color-ochre:       #FFD248;   // Sunlit Ochre — highlights, badges, joy
+$color-ochre-soft:  #FFDF7A;   // Ochre light — backgrounds
+$color-ocean:       #A7BEC1;   // Ocean Glass — subtle accents, icons
+$color-sand:        #F1E4CF;   // Warm Sand — main background
+$color-cream:       #FFFBF3;   // Off-white warm — cards, surfaces
+$color-coral:       #E85D4E;   // Coral — primary CTA, notifications
+$color-ink:         #1B3B3A;   // Near-black teal — main text
+$color-border-warm: #E5DCC9;   // Warm border on sand
 
-// Surfaces — subtly indigo-tinted neutrals
-$color-bg:           #f6f6fe;   // near-white with barely-there indigo tint
-$color-surface:      #ffffff;
-$color-surface-alt:  #f0f0fc;   // slightly deeper indigo tint
+// ─── Semantic aliases (used across all modules) ───────────
 
-// Text
-$color-text:         #0f0e17;   // near-black, slight purple undertone
-$color-text-muted:   #6b7280;
-$color-text-subtle:  #9ca3af;
+$color-primary:      $color-teal;
+$color-primary-dark: $color-teal-soft;
 
-// Borders
-$color-border:       #e4e4f0;   // soft indigo-tinted border
-$color-border-focus: #a5b4fc;   // indigo-300
+$color-secondary:    $color-ochre;
+$color-danger:       $color-coral;
+$color-warning:      $color-ochre;
+
+$color-bg:           $color-sand;
+$color-surface:      $color-cream;
+$color-surface-alt:  $color-sand;
+
+$color-text:         $color-ink;
+$color-text-muted:   #608E8D;   // teal at ~65% on cream
+$color-text-subtle:  $color-ocean;
+
+$color-border:       $color-border-warm;
+$color-border-focus: $color-teal;
 
 // ─── Radius ───────────────────────────────────────────────
 
@@ -34,8 +44,9 @@ $radius-full: 9999px;
 
 // ─── Typography ───────────────────────────────────────────
 
-$font-base: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-$font-mono: 'SF Mono', ui-monospace, monospace;
+$font-base:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+$font-serif: 'Fraunces', 'Georgia', serif;
+$font-mono:  'SF Mono', ui-monospace, monospace;
 
 // ─── Breakpoints ──────────────────────────────────────────
 
@@ -45,10 +56,10 @@ $desktop: 1200px;
 
 // ─── Shadows ──────────────────────────────────────────────
 
-$shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.05);
-$shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.06), 0 1px 2px rgba(0, 0, 0, 0.04);
-$shadow-md: 0 4px 12px rgba(79, 70, 229, 0.08), 0 2px 4px rgba(0, 0, 0, 0.04);
-$shadow-lg: 0 12px 32px rgba(79, 70, 229, 0.12), 0 4px 8px rgba(0, 0, 0, 0.06);
+$shadow-xs: 0 1px 2px rgba(27, 59, 58, 0.04);
+$shadow-sm: 0 1px 4px rgba(27, 59, 58, 0.06), 0 1px 2px rgba(27, 59, 58, 0.04);
+$shadow-md: 0 4px 12px rgba(47, 124, 122, 0.08), 0 2px 4px rgba(27, 59, 58, 0.04);
+$shadow-lg: 0 12px 32px rgba(47, 124, 122, 0.14), 0 4px 8px rgba(27, 59, 58, 0.06);
 
 // ─── Transitions ──────────────────────────────────────────
 
