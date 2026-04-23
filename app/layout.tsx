@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Figtree } from 'next/font/google';
 import '@/styles/globals.scss';
+import FeedbackWidget from '@/components/Feedback/FeedbackWidget';
 
 const figtree = Figtree({
   subsets: ['latin'],
@@ -20,7 +21,10 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={figtree.variable}>
-      <body>{children}</body>
+      <body>
+        {children}
+        <FeedbackWidget />
+      </body>
     </html>
   );
 }
