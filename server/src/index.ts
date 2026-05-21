@@ -39,14 +39,14 @@ sequelize
   .authenticate()
   .then(() => {
     console.log('DB authenticate OK');
-    return ensureSchema(sequelize);
-  })
-  .then(() => {
-    console.log('DB schema check OK');
     return sequelize.sync();
   })
   .then(() => {
     console.log('DB sync OK');
+    return ensureSchema(sequelize);
+  })
+  .then(() => {
+    console.log('DB schema check OK');
     server.listen(PORT, () => console.log(`Server running on port ${PORT}`));
   })
   .catch((err) => {
